@@ -12,9 +12,4 @@ def main():
     plant_locations = plant_locations[plant_locations.State.notnull()]
     print(plant_locations.shape)
     
-    # low_memory=False : fixes warnings about mixed types because dropping those columns in next step anyways
-    railroad_locations = pd.read_csv("Railroad_Crossings.csv", low_memory=False) 
-    railroad_locations = railroad_locations[['RAILROAD', 'StateCode','LATITUDE', 'LONGITUD']]
-    print(railroad_locations.shape)
-    
 main()
