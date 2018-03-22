@@ -7,7 +7,9 @@ Created on Thu Mar 15 03:53:33 2018
 
 import pandas as pd
 
-df = pd.read_csv('/Users/Beth/CSC495/waterlocations.csv')
-df
-print(df.head(50)) 
-print(len(df))
+def main():
+   df = pd.read_csv('resources/waterlocations.csv')
+   print(df.head(50)) 
+   print(len(df))
+   
+main()
