@@ -14,12 +14,9 @@ def connect():
     return engine
         
 def create_table(dbEngine):
-    df_landprices = pd.read_excel("resources/landdata-msas-2016q1.xls", parse_cols="A,B,E")
-    df_landprices['Year'] = df_landprices.Date.str[:4]
-    df_landprices = df_landprices.drop(['Date'], axis=1)
-    df_landprices = df_landprices.groupby(['MSA','Year']).mean()   
-    print(df_landprices)
-    df_landprices.to_sql(name='land_prices', con=dbEngine, if_exists = 'replace')
+    df_landprices = pd.read_excel("resources/landdata-msas-2016q1.xls", skiprows=[0], parse_cols="A,B,C,D,E,H,I")
+    df_landprices = df_landprices.loc[df_landprices['Date'] == '2015Q4']
+    df_landprices.to_sql(name='land_prices', con=dbEngine, index=False, if_exists = 'replace')
         
 engine = connect()
 create_table(engine)
