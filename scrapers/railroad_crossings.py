@@ -16,7 +16,8 @@ def main():
 #    print(railroad_locations.shape)
     
     zf = zipfile.ZipFile('resources/Railroad_Crossings.zip') 
-    railroad_locations = pd.read_csv(zf.open('Railroad_Crossings.csv'), low_memory=False)
+    railroad_locations = pd.read_csv(zf.open('Railroad_Crossings.csv'), sep="\t", low_memory=False,  encoding='latin-1')
     railroad_locations = railroad_locations[['RAILROAD', 'StateCode','LATITUDE', 'LONGITUD']]
+    #print(railroad_locations)
     
 main()
