@@ -16,6 +16,7 @@ def connect():
 def create_table(dbEngine):
     data = pd.read_csv('resources/waterlocations.csv') 
     data = data[['MonitoringLocationTypeName', 'LatitudeMeasure', 'LongitudeMeasure']]
+    
     data.to_sql(name='water_locations', con=dbEngine, if_exists = 'replace')
         
 engine = connect()
