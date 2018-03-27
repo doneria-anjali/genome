@@ -1,6 +1,8 @@
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
+from sqlalchemy import create_engine
+
 
 class OilReserveData:
     def __init__(self, state, year11, year12, year13, year14, year15, year16):
@@ -50,7 +52,9 @@ for tr in rows:
     values.append(OilReserveData(state, y11, y12, y13, y14, y15, current))
     
 df = pd.DataFrame.from_records([s.to_dict() for s in values])
-print(df.head(10))
+
+engine = create_engine('mysql+pymysql://pythonUser:abc@localhost:3306/dddm?charset=utf8', encoding='utf-8')
+df.to_sql(name='oil_reserve', con=engine, if_exists = 'replace')
 
 #df_list = pd.read_html(url, attrs={'class': 'data1'}, keep_default_na=False)[0]
 #print(df_list)

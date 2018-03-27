@@ -5,7 +5,6 @@ Created on Thu Mar 22 11:56:36 2018
 @author: Cameron
 """
 
-import pymysql
 from sqlalchemy import create_engine
 import pandas as pd
 
@@ -27,7 +26,7 @@ def connect():
         
 def create_table(dbEngine):
     data = pd.read_csv('resources/uscitiesdata.csv')    
-    data.to_sql(name='sample_table', con=dbEngine, if_exists = 'replace')
+    data.to_sql(name='demo_table', con=dbEngine, if_exists = 'replace')
         
 engine = connect()
 create_table(engine)
