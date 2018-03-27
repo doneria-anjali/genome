@@ -6,10 +6,10 @@ Created on Fri Mar 16 15:52:33 2018
 """
 
 import pandas as pd
-from sqlalchemy import create_engine
+import mysqlConnection as md
 
-def main():
-    initial = pd.read_csv('resources/uscitiesdata.csv')
+def main(file_name):
+    initial = pd.read_csv('resources/' + file_name)
     initial['city'] = initial['city'].str.replace(' ', '').str.upper()
     
     seperatedZips = (initial['zip'].str.strip()).str.split(expand=True)
@@ -26,8 +26,10 @@ def main():
     # Drops columns with missing zip code values
     allZips = allZips[pd.notnull(allZips.zip)]
     
-    engine = create_engine('mysql+pymysql://pythonUser:abc@localhost:3306/dddm?charset=utf8', encoding='utf-8')
-    allZips.to_sql(name='zip_lookup', con=engine, if_exists = 'replace')
+    #engine = create_engine('mysql+pymysql://pythonUser:abc@localhost:3306/dddm?charset=utf8', encoding='utf-8')
+    #allZips.to_sql(name='zip_lookup', con=engine, if_exists = 'replace')
+    
+    md.create_table(md.connect(), allZips, 'zip_lookup')
     
     """ Zip Code lookup table complete, Ready to be joined """
     
@@ -46,4 +48,4 @@ def main():
 #    print(df.head(20))
     
     
-main()
+main('uscitiesdata.csv')
