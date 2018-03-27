@@ -22,13 +22,14 @@ to match your DB credentials.
 
 def connect():
     """ Connect to MySQL database after filling out below parameters"""
-    engine = create_engine('mysql+pymysql://[username]:[password]@localhost:3306/dddm')
+    engine = create_engine('mysql+pymysql://pythonUser:abc@localhost:3306/dddm?charset=utf8', encoding='utf-8')
     return engine
         
 def create_table(dbEngine):
-    data = pd.read_csv('uscitiesdata.csv')
-    data.to_sql(name='sample_table', con=dbEngine, if_exists = 'repalace')
+    data = pd.read_csv('resources/uscitiesdata.csv')
+    
+    data.to_sql(name='sample_table', con=dbEngine, if_exists = 'replace')
         
 engine = connect()
 # Below does not work yet
-#create_table(engine)
+create_table(engine)
