@@ -31,6 +31,3 @@ def getZipcodes(zipcode, radius):
         response.raise_for_status()
     
     return dfResponse
-        
-        
-print(getZipcodes('14208', 10))
