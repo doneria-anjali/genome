@@ -15,7 +15,6 @@ import zipcodeDistance as zd
 import pandas as pd
 
 def getSeaPortData(engine, zipcode, zipList):    
-    #extract landprices from mysql by zipcodes from land_prices_final table
     query = "SELECT * from dddm.seaports_final where ZIPCODE in ("
     query += "'" + zipcode + "',"
     for zip in zipList:
@@ -27,8 +26,7 @@ def getSeaPortData(engine, zipcode, zipList):
     data = pd.read_sql(query, engine)
     return len(data.index)
 
-def getLandPricesData(engine, zipcode, zipList):    
-    #extract landprices from mysql by zipcodes from land_prices_final table
+def getLandPricesData(engine, zipcode, zipList):
     query = "SELECT * from dddm.land_prices_final where zip in ("
     query += "'" + zipcode + "',"
     for zip in zipList:
@@ -42,7 +40,6 @@ def getLandPricesData(engine, zipcode, zipList):
     return avgCostIndex
 
 def getOilReservesData(engine, zipcode, zipList):
-    #extract landprices from mysql by zipcodes from land_prices_final table
     query = "SELECT * from dddm.oil_reserve_final where zip in ("
     query += "'" + zipcode + "',"
     for zip in zipList:
@@ -52,9 +49,21 @@ def getOilReservesData(engine, zipcode, zipList):
     query += ")"
         
     data = pd.read_sql(query, engine)
-    data['year16'] = data['year16'].str.replace(',','').astype(int)
+    data['year16'] = data['year16'].str.replace(',','').str.replace('.','').astype(int)
     maxOilReserves = data['year16'].max()
     return maxOilReserves
+
+def getExistingPlants(engine, zipcode, zipList):
+    query = "SELECT * from dddm.plant_locations where zip_code in ("
+    query += "'" + zipcode + "',"
+    for zip in zipList:
+        query += "'" + zip +  "',"
+    
+    query = query[:-1]
+    query += ")"
+        
+    data = pd.read_sql(query, engine)
+    return len(data.index)
 
 def buildAll(zipcode, radius):
     
@@ -66,6 +75,8 @@ def buildAll(zipcode, radius):
     print('Number of sea ports: ' + str(getSeaPortData(engine, zipcode, zipList)))
     print('Land price rating: ' + str(getLandPricesData(engine, zipcode, zipList)))
     print('Oil reserves available: ' + str(getOilReservesData(engine, zipcode, zipList)))
+    print('Existing plant locations within radius: '\
+          + str(getExistingPlants(engine, zipcode, zipList)))
 
 """ For testing purposes only """
-#buildAll('58760', 20)
+buildAll('70615', 20)
