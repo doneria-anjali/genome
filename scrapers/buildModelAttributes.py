@@ -49,7 +49,7 @@ def getOilReservesData(engine, zipcode, zipList):
     query += ")"
         
     data = pd.read_sql(query, engine)
-    data['year16'] = data['year16'].str.replace(',','').str.replace('.','').astype(int)
+    data['year16'] = data['year16'].str.replace(',','').astype(int)
     maxOilReserves = data['year16'].max()
     return maxOilReserves
 
