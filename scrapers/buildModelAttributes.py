@@ -23,15 +23,9 @@ def getSeaPortData(engine, zipcode, zipList):
     
     query = query[:-1]
     query += ")"
-    
-    with engine.connect() as con:
-        data = con.execute(query)
         
-    rowCount = 0
-    for row in data:
-        rowCount += 1
-     
-    return rowCount
+    data = pd.read_sql(query, engine)
+    return len(data.index)
 
 def getLandPricesData(engine, zipcode, zipList):    
     #extract landprices from mysql by zipcodes from land_prices_final table
@@ -44,7 +38,7 @@ def getLandPricesData(engine, zipcode, zipList):
     query += ")"
         
     data = pd.read_sql(query, engine)
-    avgCostIndex = data['Land Price Index Normalized'].mean()
+    avgCostIndex = data['Land Price Index'].mean()
     return avgCostIndex
 
 def getOilReservesData(engine, zipcode, zipList):
@@ -56,17 +50,10 @@ def getOilReservesData(engine, zipcode, zipList):
     
     query = query[:-1]
     query += ")"
-    
-    with engine.connect() as con:
-        data = con.execute(query)
         
-    maxOilReserves = 0
-    rowCount = 0
-    for row in data:
-        if int(row['year16'].replace(',','')) > maxOilReserves:
-            maxOilReserves = int(row['year16'].replace(',',''))
-        rowCount += 1
-     
+    data = pd.read_sql(query, engine)
+    data['year16'] = data['year16'].str.replace(',','').astype(int)
+    maxOilReserves = data['year16'].max()
     return maxOilReserves
 
 def buildAll(zipcode, radius):
@@ -76,9 +63,9 @@ def buildAll(zipcode, radius):
     zipdf = zd.getZipcodes(zipcode, radius)
     zipList = zipdf['zip_code'].tolist()
     
-    #print('Number of sea ports: ' + str(getSeaPortData(engine, zipcode, zipList)))
+    print('Number of sea ports: ' + str(getSeaPortData(engine, zipcode, zipList)))
     print('Land price rating: ' + str(getLandPricesData(engine, zipcode, zipList)))
-    #print('Oil reserves available: ' + str(getOilReservesData(engine, zipcode, zipList)))
+    print('Oil reserves available: ' + str(getOilReservesData(engine, zipcode, zipList)))
 
 """ For testing purposes only """
-buildAll('75098', 20)
+#buildAll('58760', 20)
