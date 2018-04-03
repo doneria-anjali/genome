@@ -12,6 +12,7 @@ All functions are called at the bottom.
 
 import mysqlConnection as md
 import zipcodeDistance as zd
+import pandas as pd
 
 def getSeaPortData(engine, zipcode, zipList):    
     #extract landprices from mysql by zipcodes from land_prices_final table
@@ -41,20 +42,10 @@ def getLandPricesData(engine, zipcode, zipList):
     
     query = query[:-1]
     query += ")"
-    
-    with engine.connect() as con:
-        data = con.execute(query)
         
-    landPriceSum = 0
-    rowCount = 0
-    for row in data:
-        landPriceSum += row[6]
-        rowCount += 1
-    
-    if rowCount == 0:
-        return 0
-     
-    return landPriceSum/rowCount
+    data = pd.read_sql(query, engine)
+    avgCostIndex = data['Land Price Index Normalized'].mean()
+    return avgCostIndex
 
 def getOilReservesData(engine, zipcode, zipList):
     #extract landprices from mysql by zipcodes from land_prices_final table
@@ -85,10 +76,9 @@ def buildAll(zipcode, radius):
     zipdf = zd.getZipcodes(zipcode, radius)
     zipList = zipdf['zip_code'].tolist()
     
-    print('Number of sea ports: ' + str(getSeaPortData(engine, zipcode, zipList)))
+    #print('Number of sea ports: ' + str(getSeaPortData(engine, zipcode, zipList)))
     print('Land price rating: ' + str(getLandPricesData(engine, zipcode, zipList)))
-    print('Oil reserves available: ' + str(getOilReservesData(engine, zipcode, zipList)))
-    # Needs to be finished ...
+    #print('Oil reserves available: ' + str(getOilReservesData(engine, zipcode, zipList)))
 
-""" To run full model """
-#buildAll('78390', 50)
+""" For testing purposes only """
+buildAll('75098', 20)
