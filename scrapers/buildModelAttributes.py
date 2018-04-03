@@ -13,15 +13,7 @@ All functions are called at the bottom.
 import mysqlConnection as md
 import zipcodeDistance as zd
 
-def getSeaPortData(zipcode, radius):
-    engine = md.connect()
-    
-    zipdf = zd.getZipcodes(zipcode, radius)
-    
-    #parse dataframe zipdf to extract zipcodes
-    zipList = zipdf['zip_code'].tolist()
-    #print(zipList)
-    
+def getSeaPortData(engine, zipcode, zipList):    
     #extract landprices from mysql by zipcodes from land_prices_final table
     query = "SELECT * from dddm.seaports_final where ZIPCODE in ("
     query += "'" + zipcode + "',"
@@ -40,15 +32,7 @@ def getSeaPortData(zipcode, radius):
      
     return rowCount
 
-def getLandPricesData(zipcode, radius):
-    engine = md.connect()
-    
-    zipdf = zd.getZipcodes(zipcode, radius)
-    
-    #parse dataframe zipdf to extract zipcodes
-    zipList = zipdf['zip_code'].tolist()
-    #print(zipList)
-    
+def getLandPricesData(engine, zipcode, zipList):    
     #extract landprices from mysql by zipcodes from land_prices_final table
     query = "SELECT * from dddm.land_prices_final where zip in ("
     query += "'" + zipcode + "',"
@@ -72,15 +56,7 @@ def getLandPricesData(zipcode, radius):
      
     return landPriceSum/rowCount
 
-def getOilReservesData(zipcode, radius):
-    engine = md.connect()
-    
-    zipdf = zd.getZipcodes(zipcode, radius)
-    
-    #parse dataframe zipdf to extract zipcodes
-    zipList = zipdf['zip_code'].tolist()
-    #print(zipList)
-    
+def getOilReservesData(engine, zipcode, zipList):
     #extract landprices from mysql by zipcodes from land_prices_final table
     query = "SELECT * from dddm.oil_reserve_final where zip in ("
     query += "'" + zipcode + "',"
@@ -103,15 +79,16 @@ def getOilReservesData(zipcode, radius):
     return maxOilReserves
 
 def buildAll(zipcode, radius):
-    print('Number of sea ports: ' + str(getSeaPortData(zipcode, radius)))
-    print('Land price rating: ' + str(getLandPricesData(zipcode, radius)))
-    print('Oil reserves available: ' + str(getOilReservesData(zipcode, radius)))
+    
+    # Gets zipcode right here to only call API once per run
+    engine = md.connect()
+    zipdf = zd.getZipcodes(zipcode, radius)
+    zipList = zipdf['zip_code'].tolist()
+    
+    print('Number of sea ports: ' + str(getSeaPortData(engine, zipcode, zipList)))
+    print('Land price rating: ' + str(getLandPricesData(engine, zipcode, zipList)))
+    print('Oil reserves available: ' + str(getOilReservesData(engine, zipcode, zipList)))
     # Needs to be finished ...
 
 """ To run full model """
 #buildAll('78390', 50)
-
-""" For testing purposes only """
-#print('Number of sea ports: ' + str(getSeaPortData('78402', 10)))
-#print('Land price rating: ' + str(getLandPricesData('14208', 10)))
-#print('Oil reserves available: ' + str(getOilReservesData('78390', 10)))
