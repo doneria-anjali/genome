@@ -1,5 +1,6 @@
 import mysqlConnection as md
 import zipcodeDistance as zd
+import pandas as pd
 
 def getLandPricesData(zipcode, radius):
     engine = md.connect()
@@ -18,6 +19,9 @@ def getLandPricesData(zipcode, radius):
     query = query[:-1]
     query += ")"
     print(query)
+    
+    df = pd.read_sql(query, engine)
+    print(df.head(5))
     
     with engine.connect() as con:
         data = con.execute(query)
