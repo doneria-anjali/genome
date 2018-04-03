@@ -1,8 +1,9 @@
-from tkinter import *
+from tkinter import Tk, Button, Label, Entry
+from tkinter import mainloop
+import buildModelAttributes as model
 
 def callback():
-    print(e.get())
-    print(e1.get())
+    model.buildAll(e.get(), e1.get())
 
 master = Tk()
 master .minsize(300,300)
@@ -10,12 +11,12 @@ master .geometry("620x400")
 master .title("Environmental genome")
 
 b = Button(master, text="Let's check", command=callback)
-b.place(x=180, y=60)
+b.place(x=220, y=60)
 
-l = Label(master, text="Enter Zipcode:-")
+l = Label(master, text="Enter zipcode:")
 l.place(x=130, y=0)
 
-l1 = Label(master, text="Enter other info:-")
+l1 = Label(master, text="Enter radius:")
 l1.place(x=130, y=18)
 
 e = Entry(master)

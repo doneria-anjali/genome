@@ -66,6 +66,9 @@ def getLandPricesData(zipcode, radius):
     for row in data:
         landPriceSum += row[6]
         rowCount += 1
+    
+    if rowCount == 0:
+        return 0
      
     return landPriceSum/rowCount
 
@@ -94,7 +97,7 @@ def getOilReservesData(zipcode, radius):
     rowCount = 0
     for row in data:
         if int(row['year16'].replace(',','')) > maxOilReserves:
-            maxOilReserves = row['year16']
+            maxOilReserves = int(row['year16'].replace(',',''))
         rowCount += 1
      
     return maxOilReserves
@@ -106,9 +109,9 @@ def buildAll(zipcode, radius):
     # Needs to be finished ...
 
 """ To run full model """
-#buildAll('27606', 50)
+#buildAll('78390', 50)
 
 """ For testing purposes only """
-print('Number of sea ports: ' + str(getSeaPortData('78402', 10)))
-print('Land price rating: ' + str(getLandPricesData('14208', 10)))
-print('Oil reserves available: ' + str(getOilReservesData('78390', 10)))
+#print('Number of sea ports: ' + str(getSeaPortData('78402', 10)))
+#print('Land price rating: ' + str(getLandPricesData('14208', 10)))
+#print('Oil reserves available: ' + str(getOilReservesData('78390', 10)))
