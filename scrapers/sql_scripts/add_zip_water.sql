@@ -1,4 +1,4 @@
-drop table dddm.temp;
+#drop table dddm.temp;
 
 create table dddm.temp as
 select distinct a.MonitoringLocationTypeName, 
