@@ -87,6 +87,31 @@ def getExistingPlants(engine, zipcode, zipList):
         return 2
     return 3
 
+def getDisasterData(engine, zipcode, zipList):
+    query = "SELECT * from dddm.disaster_data_final where zip_code in ("
+    query += "'" + zipcode + "',"
+    for zip in zipList:
+        query += "'" + zip +  "',"
+    
+    query = query[:-1]
+    query += ")"
+        
+    data = pd.read_sql(query, engine)
+    #Account for missing data by return 3 because no natural disasters
+    if len(data.index) == 0:
+        return 3
+    
+    fireMentions = data['NumFireReferences'].mean()
+    floodMentions = data['NumFloodReferences'].mean()
+    hurricaneMentions = data['NumHurricaneReferences'].mean()
+    
+    overallMean = (fireMentions + floodMentions + hurricaneMentions) / 3
+    if overallMean == 0:
+        return 3
+    elif overallMean < .5:
+        return 2
+    return 1
+
 def buildAll(zipcode, radius):
     
     # Gets zipcode right here to only call API once per run

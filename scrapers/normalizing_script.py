@@ -20,5 +20,10 @@ def normalize_all():
     df['year16_norm'] = (df['year16'] - df['year16'].min())/(df['year16'].max() - df['year16'].min())
     md.create_table(engine, df, 'oil_reserve_final')
     
+    df = pd.read_sql_table('disaster_data_final', engine)
+    df['NumFireReferences_norm'] = (df['NumFireReferences'] - df['NumFireReferences'].min())/(df['NumFireReferences'].max() - df['NumFireReferences'].min())
+    df['NumFloodReferences_norm'] = (df['NumFloodReferences'] - df['NumFloodReferences'].min())/(df['NumFloodReferences'].max() - df['NumFloodReferences'].min())
+    df['NumHurricaneReferences_norm'] = (df['NumHurricaneReferences'] - df['NumHurricaneReferences'].min())/(df['NumHurricaneReferences'].max() - df['NumHurricaneReferences'].min())
+    md.create_table(engine, df, 'disaster_data_final')
     
 normalize_all()
