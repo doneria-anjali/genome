@@ -11,5 +11,10 @@ values
 create table oil_reserve_final as
 select b.zip, a.*
 from dddm.oil_reserve a
-	inner join dddm.zip_lookup b
+	right join dddm.zip_lookup b
 		on a.state = b.state_name;
+        
+update dddm.oil_reserve_final
+set year16 = 0
+where year16 is null;
+        

@@ -4,6 +4,7 @@ import buildModelAttributes as model
 
 def callback():
     model.buildAll(e.get(), e1.get())
+    l2['text'] = "On click display!!"
 
 master = Tk()
 master .minsize(300,300)
@@ -18,6 +19,9 @@ l.place(x=130, y=0)
 
 l1 = Label(master, text="Enter radius:")
 l1.place(x=130, y=18)
+
+l2 = Label(master, text="")
+l2.place(x=130, y=36)
 
 e = Entry(master)
 e.place(x=10, y=100)
