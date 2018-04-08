@@ -26,4 +26,8 @@ def normalize_all():
     df['NumHurricaneReferences_norm'] = (df['NumHurricaneReferences'] - df['NumHurricaneReferences'].min())/(df['NumHurricaneReferences'].max() - df['NumHurricaneReferences'].min())
     md.create_table(engine, df, 'disaster_data_final')
     
+    df = pd.read_sql_table('railroad_data_final', engine)
+    df['Tons_norm'] = (df['Tons'] - df['Tons'].min())/(df['Tons'].max() - df['Tons'].min())
+    md.create_table(engine, df, 'railroad_data_final')
+    
 normalize_all()

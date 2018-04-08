@@ -112,6 +112,28 @@ def getDisasterData(engine, zipcode, zipList):
         return 2
     return 1
 
+def getRailroadData(engine, zipcode, zipList):
+    query = "SELECT * from dddm.railroad_data_final where zip_code in ("
+    query += "'" + zipcode + "',"
+    for zip in zipList:
+        query += "'" + zip +  "',"
+    
+    query = query[:-1]
+    query += ")"
+        
+    data = pd.read_sql(query, engine)
+    #Account for missing data by return 3 because no natural disasters
+    if len(data.index) == 0:
+        return -1
+    
+    avgFreightTons = data['NumFireReferences'].mean()
+
+    if avgFreightTons == 0:
+        return 1
+    elif avgFreightTons < .3:
+        return 2
+    return 3
+
 def buildAll(zipcode, radius):
     
     # Gets zipcode right here to only call API once per run
