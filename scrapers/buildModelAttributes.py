@@ -134,6 +134,28 @@ def getRailroadData(engine, zipcode, zipList):
         return 2
     return 3
 
+def getPopulationDensityData(engine, zipcode, zipList):
+    query = "SELECT * from dddm.population_density_final where zip_code in ("
+    query += "'" + zipcode + "',"
+    for zip in zipList:
+        query += "'" + zip +  "',"
+    
+    query = query[:-1]
+    query += ")"
+        
+    data = pd.read_sql(query, engine)
+    #Account for missing data by return 3 because no natural disasters
+    if len(data.index) == 0:
+        return -1
+    
+    density = data['density_norm'].mean()
+
+    if .2 < density < .5:
+        return 3
+    elif .1 < density < .6:
+        return 2
+    return 1
+
 def buildAll(zipcode, radius):
     
     # Gets zipcode right here to only call API once per run

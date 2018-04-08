@@ -30,4 +30,8 @@ def normalize_all():
     df['Tons_norm'] = (df['Tons'] - df['Tons'].min())/(df['Tons'].max() - df['Tons'].min())
     md.create_table(engine, df, 'railroad_data_final')
     
+    df = pd.read_sql_table('population_density', engine)
+    df['density_norm'] = (df['density'] - df['density'].min())/(df['density'].max() - df['density'].min())
+    md.create_table(engine, df, 'population_density_final')
+    
 normalize_all()
