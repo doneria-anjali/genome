@@ -24,7 +24,12 @@ def getSeaPortData(engine, zipcode, zipList):
     query += ")"
         
     data = pd.read_sql(query, engine)
-    return len(data.index)
+    num = len(data.index)
+    if num == 0:
+        return 1
+    elif num < 2:
+        return 2
+    return 3
 
 def getLandPricesData(engine, zipcode, zipList):
     query = "SELECT * from dddm.land_prices_final where zip in ("
@@ -46,8 +51,7 @@ def getLandPricesData(engine, zipcode, zipList):
         return 1
     elif avgCostIndex < 0.67:
         return 2
-    else:
-        return 3
+    return 3
 
 def getOilReservesData(engine, zipcode, zipList):
     query = "SELECT * from dddm.oil_reserve_final where zip in ("
@@ -64,8 +68,7 @@ def getOilReservesData(engine, zipcode, zipList):
         return 1
     elif oilReserves < .5:
         return 2
-    else:
-        return 3
+    return 3
 
 def getExistingPlants(engine, zipcode, zipList):
     query = "SELECT * from dddm.plant_locations where zip_code in ("
@@ -77,7 +80,12 @@ def getExistingPlants(engine, zipcode, zipList):
     query += ")"
         
     data = pd.read_sql(query, engine)
-    return len(data.index)
+    num = len(data.index)
+    if num > 2:
+        return 1
+    elif num > 0:
+        return 2
+    return 3
 
 def buildAll(zipcode, radius):
     
