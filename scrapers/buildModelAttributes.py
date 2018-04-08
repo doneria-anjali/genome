@@ -36,8 +36,18 @@ def getLandPricesData(engine, zipcode, zipList):
     query += ")"
         
     data = pd.read_sql(query, engine)
-    avgCostIndex = data['Land Price Index'].mean()
-    return avgCostIndex
+    
+    #Account for missing data by return -1
+    if len(data.index) == 0:
+        return -1
+    
+    avgCostIndex = data['structure_cost_norm'].mean()
+    if avgCostIndex < 0.33:
+        return 1
+    elif avgCostIndex < 0.67:
+        return 2
+    else:
+        return 3
 
 def getOilReservesData(engine, zipcode, zipList):
     query = "SELECT * from dddm.oil_reserve_final where zip in ("
@@ -49,9 +59,13 @@ def getOilReservesData(engine, zipcode, zipList):
     query += ")"
         
     data = pd.read_sql(query, engine)
-    data['year16'] = data['year16'].str.replace(',','').str.replace('.','').astype(int)
-    maxOilReserves = data['year16'].max()
-    return maxOilReserves
+    oilReserves = data['year16_norm'].max()
+    if oilReserves == 0:
+        return 1
+    elif oilReserves < .5:
+        return 2
+    else:
+        return 3
 
 def getExistingPlants(engine, zipcode, zipList):
     query = "SELECT * from dddm.plant_locations where zip_code in ("
