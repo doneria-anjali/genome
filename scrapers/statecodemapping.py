@@ -6,5 +6,5 @@ def read_state_codes(file_name):
     print(state_code.head(5))
     md.create_table(md.connect(), state_code, 'state_codes')
     
-    
+
 read_state_codes('statecodemapping.txt')
