@@ -1,8 +1,4 @@
-   58c3215s
-
-   § 3215.  Well location restrictions.
-
-   (a)  General rule.--Wells may not be drilled within 200 feet, or, in
+   (a)  General rule--Wells may not be drilled within 200 feet, or, in
    the case of an unconventional gas well, 500 feet, measured horizontally
    from the vertical well bore to a building or water well, existing when
    the copy of the plat is mailed as required by section 3211(b) (relating
@@ -26,7 +22,7 @@
    for up to 15 days upon notification to the applicant of the reasons for
    the extension.
 
-   (b)  Limitation.--
+   (b)  Limitation--
 
    (1)  No well site may be prepared or well drilled within 100 feet or,
    in the case of an unconventional well, 300 feet from the vertical well
@@ -61,29 +57,29 @@
    department shall consider the impact of the proposed well on public
    resources, including, but not limited to:
 
-   (1)  Publicly owned parks, forests, game lands and wildlife areas.
+   (1)  Publicly owned parks, forests, game lands and wildlife areas
 
-   (2)  National or State scenic rivers.
+   (2)  National or State scenic rivers
 
-   (3)  National natural landmarks.
+   (3)  National natural landmarks
 
    (4)  Habitats of rare and endangered flora and fauna and other critical
-   communities.
+   communities
 
    (5)  Historical and archaeological sites listed on the Federal or State
-   list of historic places.
+   list of historic places
 
    (6)  Sources used for public drinking supplies in accordance with
-   subsection (b).
+   subsection (b)
 
-   (d)  Consideration of municipality and storage operator comments.--The
+   (d)  Consideration of municipality and storage operator comments--The
    department may consider the comments submitted under section 3212.1
    (relating to comments by municipalities and storage operators) in
    making a determination on a well permit. Notwithstanding any other law,
    no municipality or storage operator shall have a right of appeal or
    other form of review from the department's decision.
 
-   (d.1)  Additional protective measures.--The department may establish
+   (d.1)  Additional protective measures--The department may establish
    additional protective measures for storage of hazardous chemicals and
    materials intended to be used or that have been used on an
    unconventional well drilling site within 750 feet of a solid blue lined
@@ -91,7 +87,7 @@
    minute topographic quadrangle map of the United States Geological
    Survey.
 
-   (e)  Regulation criteria.--The Environmental Quality Board shall
+   (e)  Regulation criteria--The Environmental Quality Board shall
    develop by regulation criteria:
 
    (1)  For the department to utilize for conditioning a well permit based
@@ -105,7 +101,7 @@
    conditions were necessary to protect against a probable harmful impact
    of the public resources.
 
-   (f)  Floodplains.--
+   (f)  Floodplains--
 
    (1)  No well site may be prepared or well drilled within any floodplain
    if the well site will have:
@@ -115,7 +111,7 @@
    floodplain; or
 
    (ii)  a tank containing hazardous materials, chemicals, condensate,
-   wastes, flowback or produced water within the floodway.
+   wastes, flowback or produced water within the floodway
 
    (2)  A well site shall not be eligible for a floodplain restriction
    waiver if the well site will have a tank containing condensate,
@@ -152,7 +148,7 @@
    (ii)  from any intermittent stream up to 50 feet horizontally from the
    top of the bank of the intermittent stream.
 
-   (g)  Applicability.--
+   (g)  Applicability--
 
    (1)  This section shall not apply to a well proposed to be drilled on
    an existing well site for which at least one well permit has been
@@ -161,12 +157,3 @@
    (2)  Nothing in this section shall alter or abridge the terms of any
    contract, mortgage or other agreement entered into prior to the
    effective date of this section.
-   58c3215v
-
-
-   Special Provisions in Appendix.  See section 4(3)(iv) of Act 13 of 2012
-   in the appendix to this title for special provisions relating to
-   continuation of prior law.
-
-   Cross References.  Section 3215 is referred to in sections 3211, 3212,
-   3212.1, 3304 of this title.
