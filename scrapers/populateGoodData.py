@@ -19,12 +19,13 @@ def populateData(radius, actualValue):
     print(len(storedZip))
         
     for zipcode in allzipList:
-        updatedZip = str(int(zipcode))
-        if len(str(int(zipcode))) == 3:
-            updatedZip = str(0) + str(0) + updatedZip
-        elif len(str(int(zipcode))) == 4:
-            updatedZip = str(0) + updatedZip
-        model.addToTable(updatedZip, radius, actualValue)
-        print("Processed " + updatedZip)
+        if not zipcode in storedZip:
+            updatedZip = str(int(zipcode))
+            if len(str(int(zipcode))) == 3:
+                updatedZip = str(0) + str(0) + updatedZip
+            elif len(str(int(zipcode))) == 4:
+                updatedZip = str(0) + updatedZip
+            model.addToTable(updatedZip, radius, actualValue)
+            print("Processed " + updatedZip)
     
 populateData(50, 'Y')
