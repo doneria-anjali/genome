@@ -5,7 +5,7 @@ from sklearn.ensemble import AdaBoostClassifier, RandomForestClassifier, Gradien
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 from sklearn.tree import DecisionTreeClassifier
 import matplotlib.pyplot as plt
-
+import itertools
 import pandas as pd
 import numpy as np
 import mysqlConnection as md
@@ -42,6 +42,13 @@ def plot_confusion_matrix(cm, classes,
     plt.xlabel('Predicted label')
 
 def build_model():
+    
+    model_names = []
+    train_accuracies = []
+    test_accuracies = []
+    cv_scores = []
+    class_names = ['yes', 'no']
+    
     datafull = pd.read_sql_table('model_data', md.connect())
     data = datafull[['seaport', 'landprice', 'oilreserve', 'existingplants', 'disasters', 'railroad', 'populationdensity']]
     target = datafull[['actual']]
