@@ -179,8 +179,8 @@ def getDFForZip(zipcode, radius, actualVal):
     df = df.append(listData, ignore_index=True)
     return df
 
-def addToTable(zipcode, radius=50, actualVal='N'):
+def addToTable(zipcode, radius, actualVal):
     df = getDFForZip(zipcode, radius, actualVal)
-    print(df)
+    #print(df)
     
-addToTable('10001')
+#addToTable('10001')
