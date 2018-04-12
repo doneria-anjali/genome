@@ -5,7 +5,7 @@ import buildModelAttributes as model
 def populateData(radius, actualValue):
     
     #select all zipcodes from table
-    query = "select distinct(zip_code) FROM dddm.plant_locations limit 0,49"
+    query = "select distinct(zip_code) FROM dddm.plant_locations order by zip_code asc"
     data = pd.read_sql(query, md.connect())
     
     allzipList = data['zip_code'].tolist()
