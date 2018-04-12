@@ -150,9 +150,9 @@ def getPopulationDensityData(engine, zipcode, zipList):
     
     density = data['density_norm'].mean()
 
-    if .000000001 < density < .0005:
+    if .000000001 < density < .01:
         return 3
-    elif density < .01:
+    elif density < .03:
         return 2
     return 1
 
