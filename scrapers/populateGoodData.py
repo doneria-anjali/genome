@@ -8,9 +8,9 @@ def populateData(radius, actualValue):
     query = "select distinct(zip_code) FROM dddm.plant_locations limit 0,50"
     data = pd.read_sql(query, md.connect())
     
-    print(data.head(5))
+    zipList = data['zip_code'].tolist()
     
-    for zipcode in data:
+    for zipcode in zipList:
         model.addToTable(zipcode, radius, actualValue)
         print("Processed " + zipcode)
         break
