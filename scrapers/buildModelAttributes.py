@@ -177,10 +177,11 @@ def getDFForZip(zipcode, radius, actualVal):
                                'existingplants','disasters','railroad',
                                'populationdensity', 'actual'])
     df = df.append(listData, ignore_index=True)
-    return df
+    return engine, df
 
 def addToTable(zipcode, radius=50, actualVal='N'):
-    df = getDFForZip(zipcode, radius, actualVal)
-    print(df)
+    engine, df = getDFForZip(zipcode, radius, actualVal)
+    df.to_sql(name='model_data', con=engine, if_exists='append', index=False)
+    print("Added " + str(zipcode) + " successfully.")
     
-addToTable('10001')
+addToTable('27606', actualVal='N')

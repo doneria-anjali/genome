@@ -9,6 +9,6 @@ create table dddm.model_data
     existingplants numeric(1),
     disasters numeric(1),
     railroad numeric(1),
-    popoulationdensity numeric(1),
+    populationdensity numeric(1),
     actual character(1)
 );
