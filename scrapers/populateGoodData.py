@@ -11,7 +11,7 @@ def populateData(radius, actualValue):
     allzipList = data['zip_code'].tolist()
     print(len(allzipList))
     
-    #select inserted zipcodes #Anjali
+    #select inserted zipcodes
     query2 = "SELECT distinct(zip) FROM dddm.model_data"
     q2data = pd.read_sql(query2, md.connect())
     
@@ -28,4 +28,4 @@ def populateData(radius, actualValue):
             model.addToTable(updatedZip, radius, actualValue)
             print("Processed " + updatedZip)
     
-populateData(50, 'Y')
+populateData(50, 'N')
