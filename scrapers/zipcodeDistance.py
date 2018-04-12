@@ -9,9 +9,8 @@ import requests
 import json
 import pandas as pd
 
-key = 'HQSYxGwUOWqXzEKasRoRSwmxgnSYJWCzr9BS3hFUqrFUbNeGiXIIATRYz3FLQJRU'
-#zipcode = '27518'
-#radius = 5
+#key = 'HQSYxGwUOWqXzEKasRoRSwmxgnSYJWCzr9BS3hFUqrFUbNeGiXIIATRYz3FLQJRU'
+key = 'NOdiwrYn7IPVDqnNrZKeE6fapsffVUceXVbSMgVe2Hc8P0bKS9veH7gwYVhff8hO'
 
 def getZipcodes(zipcode, radius):
     url = 'https://www.zipcodeapi.com/rest/' + key + '/radius.json/' + zipcode + '/' + str(radius) + '/miles'
