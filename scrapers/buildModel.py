@@ -41,7 +41,7 @@ def plot_confusion_matrix(cm, classes,
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
 
-def build_model():
+def build_Gaussian_model():
     
     model_names = []
     train_accuracies = []
@@ -90,5 +90,52 @@ def build_model():
     plt.show()
     print(classification_report(target, GNB_predicted)) 
     print()
+    
+def build_AdaBoost_model():
+    class_names = ['yes', 'no']
+    
+    datafull = pd.read_sql_table('model_data', md.connect())
+    data = datafull[['seaport', 'landprice', 'oilreserve', 'existingplants', 'disasters', 'railroad', 'populationdensity']]
+    target = datafull[['actual']]
+    
+    AB_clf = AdaBoostClassifier(n_estimators = 200, random_state = 3)
+    AB_clf.fit(x_train, y_train['actual'])
+    
+    AB_predicted = cross_val_predict(AB_clf, data, target['actual'])
+    AB_scores = cross_val_score(AB_clf, data, target, cv=cv)
+    
+    #unique, counts = np.unique(AB_predicted, return_counts=True)
+    #AB_counts = dict(zip(unique, counts))
+    
+    AB_confusion = confusion_matrix(target,AB_predicted)
+    model_name = 'AdaBoost'
+    
+    train_accuracy = accuracy_score(y_train, AB_clf.predict(x_train))
+    #train_accuracies.append(train_accuracy)
+    
+    test_accuracy = accuracy_score(y_test, AB_clf.predict(x_test))
+    #test_accuracies.append(test_accuracy)
+    
+    cv_score = accuracy_score(target, AB_predicted)
+    #cv_scores.append(cv_score)
+    
+    print("AdaBoost Classifier Model: ")
+    print("  Score of {} for training set: {:.4f}.".format(AB_clf.__class__.__name__, train_accuracy))
+    print("  Score of {} for test set: {:.4f}.".format(AB_clf.__class__.__name__, test_accuracy))
+    print("  Cross validation score: %0.2f (+/- %0.2f)" % (AB_scores.mean(), AB_scores.std() * 2))
+    print("  Predicted values accuracy: %0.2f" % (accuracy_score(target, AB_predicted) ))
+    
+    #plot_outcome_chart(AB_counts)
+    #plt.figure()
+    plot_confusion_matrix(AB_confusion, class_names)
+    plt.show()
+    print(classification_report(target, AB_predicted)) 
+    print()
+    
+    importances = AB_clf.feature_importances_
+    indices = np.argsort(importances)[::-1]
+    print ('Feature Ranking: ')
+    for i in range(0,6):
+        print ("{} feature no.{} ({})".format(i+1,indices[i],importances[indices[i]]))
         
-build_model()
+build_AdaBoost_model()
