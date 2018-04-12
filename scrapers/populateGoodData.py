@@ -11,7 +11,12 @@ def populateData(radius, actualValue):
     zipList = data['zip_code'].tolist()
         
     for zipcode in zipList:
-        model.addToTable(str(int(zipcode)), radius, actualValue)
-        print("Processed " + str(int(zipcode)))
+        updatedZip = str(int(zipcode))
+        if len(str(int(zipcode))) == 3:
+            updatedZip = str(00) + updatedZip
+        elif len(str(int(zipcode))) == 4:
+            updatedZip = str(0) + updatedZip
+        model.addToTable(updatedZip, radius, actualValue)
+        print("Processed " + updatedZip)
     
 populateData(50, 'Y')
