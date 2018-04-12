@@ -98,6 +98,7 @@ def build_AdaBoost_model():
     data = datafull[['seaport', 'landprice', 'oilreserve', 'existingplants', 'disasters', 'railroad', 'populationdensity']]
     target = datafull[['actual']]
     
+    x_train, x_test, y_train, y_test = train_test_split(data, target, test_size=0.2, random_state=3)
     AB_clf = AdaBoostClassifier(n_estimators = 200, random_state = 3)
     AB_clf.fit(x_train, y_train['actual'])
     
@@ -108,7 +109,7 @@ def build_AdaBoost_model():
     #AB_counts = dict(zip(unique, counts))
     
     AB_confusion = confusion_matrix(target,AB_predicted)
-    model_name = 'AdaBoost'
+    #model_name = 'AdaBoost'
     
     train_accuracy = accuracy_score(y_train, AB_clf.predict(x_train))
     #train_accuracies.append(train_accuracy)
