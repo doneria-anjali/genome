@@ -48,10 +48,10 @@ def getLandPricesData(engine, zipcode, zipList):
     
     avgCostIndex = data['structure_cost_norm'].mean()
     if avgCostIndex < 0.33:
-        return 1
+        return 3
     elif avgCostIndex < 0.67:
         return 2
-    return 3
+    return 1
 
 def getOilReservesData(engine, zipcode, zipList):
     query = "SELECT * from dddm.oil_reserve_final where zip in ("
@@ -81,14 +81,14 @@ def getExistingPlants(engine, zipcode, zipList):
         
     data = pd.read_sql(query, engine)
     num = len(data.index)
-    if num > 2:
+    if num == 0:
         return 1
-    elif num > 0:
+    elif num < 3:
         return 2
     return 3
 
 def getDisasterData(engine, zipcode, zipList):
-    query = "SELECT * from dddm.disaster_data_final where zip_code in ("
+    query = "SELECT * from dddm.disaster_data_final where zip in ("
     query += "'" + zipcode + "',"
     for zip in zipList:
         query += "'" + zip +  "',"
@@ -113,7 +113,7 @@ def getDisasterData(engine, zipcode, zipList):
     return 1
 
 def getRailroadData(engine, zipcode, zipList):
-    query = "SELECT * from dddm.railroad_data_final where zip_code in ("
+    query = "SELECT * from dddm.railroad_data_final where zip in ("
     query += "'" + zipcode + "',"
     for zip in zipList:
         query += "'" + zip +  "',"
@@ -126,7 +126,7 @@ def getRailroadData(engine, zipcode, zipList):
     if len(data.index) == 0:
         return -1
     
-    avgFreightTons = data['NumFireReferences'].mean()
+    avgFreightTons = data['Tons_norm'].mean()
 
     if avgFreightTons == 0:
         return 1
@@ -135,7 +135,7 @@ def getRailroadData(engine, zipcode, zipList):
     return 3
 
 def getPopulationDensityData(engine, zipcode, zipList):
-    query = "SELECT * from dddm.population_density_final where zip_code in ("
+    query = "SELECT * from dddm.population_density_final where zip in ("
     query += "'" + zipcode + "',"
     for zip in zipList:
         query += "'" + zip +  "',"
@@ -156,18 +156,31 @@ def getPopulationDensityData(engine, zipcode, zipList):
         return 2
     return 1
 
-def buildAll(zipcode, radius):
-    
-    # Gets zipcode right here to only call API once per run
+def getDFForZip(zipcode, radius, actualVal):
     engine = md.connect()
     zipdf = zd.getZipcodes(zipcode, radius)
     zipList = zipdf['zip_code'].tolist()
     
-    print('Number of sea ports: ' + str(getSeaPortData(engine, zipcode, zipList)))
-    print('Land price rating: ' + str(getLandPricesData(engine, zipcode, zipList)))
-    print('Oil reserves available: ' + str(getOilReservesData(engine, zipcode, zipList)))
-    print('Existing plant locations within radius: '\
-          + str(getExistingPlants(engine, zipcode, zipList)))
+    df = pd.DataFrame(columns=['zip','seaport','landprice','oilreserve',
+                               'existingplants','disasters','railroad',
+                               'populationdensity', 'actual'])
+    listData = pd.DataFrame([[zipcode,
+                getSeaPortData(engine, zipcode, zipList),
+                getLandPricesData(engine, zipcode, zipList),
+                getOilReservesData(engine, zipcode, zipList),
+                getExistingPlants(engine, zipcode, zipList),
+                getDisasterData(engine, zipcode, zipList),
+                getRailroadData(engine, zipcode, zipList),
+                getPopulationDensityData(engine, zipcode, zipList),
+                actualVal]], 
+                columns=['zip','seaport','landprice','oilreserve',
+                               'existingplants','disasters','railroad',
+                               'populationdensity', 'actual'])
+    df = df.append(listData, ignore_index=True)
+    return df
 
-""" For testing purposes only """
-buildAll('70615', 20)
+def addToTable(zipcode, radius=50, actualVal='N'):
+    df = getDFForZip(zipcode, radius, actualVal)
+    print(df)
+    
+addToTable('10001')
