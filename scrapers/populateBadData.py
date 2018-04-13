@@ -1,6 +1,6 @@
 import mysqlConnection as md
 import pandas as pd
-import buildModelAttributes as model
+import populateModelData as model
 
 def populateData(radius, actualValue):
     

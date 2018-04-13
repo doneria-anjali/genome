@@ -82,10 +82,10 @@ def getExistingPlants(engine, zipcode, zipList):
     data = pd.read_sql(query, engine)
     num = len(data.index)
     if num == 0:
-        return 1
+        return 3
     elif num < 3:
         return 2
-    return 3
+    return 1
 
 def getDisasterData(engine, zipcode, zipList):
     query = "SELECT * from dddm.disaster_data_final where zip in ("
@@ -122,7 +122,7 @@ def getRailroadData(engine, zipcode, zipList):
     query += ")"
         
     data = pd.read_sql(query, engine)
-    #Account for missing data by return 3 because no natural disasters
+    #Account for missing data by return -1
     if len(data.index) == 0:
         return -1
     
@@ -156,32 +156,39 @@ def getPopulationDensityData(engine, zipcode, zipList):
         return 2
     return 1
 
-def getDFForZip(zipcode, radius, actualVal):
+def fetch_earthquake_data(zipcode):
     engine = md.connect()
-    zipdf = zd.getZipcodes(zipcode, radius)
-    zipList = zipdf['zip_code'].tolist()
+    #fetch latitude and longitude for zipcode
+    query1 = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "'"
+    zip_data = pd.read_sql(query1, engine)
     
-    df = pd.DataFrame(columns=['zip','seaport','landprice','oilreserve',
-                               'existingplants','disasters','railroad',
-                               'populationdensity', 'actual'])
-    listData = pd.DataFrame([[zipcode,
-                getSeaPortData(engine, zipcode, zipList),
-                getLandPricesData(engine, zipcode, zipList),
-                getOilReservesData(engine, zipcode, zipList),
-                getExistingPlants(engine, zipcode, zipList),
-                getDisasterData(engine, zipcode, zipList),
-                getRailroadData(engine, zipcode, zipList),
-                getPopulationDensityData(engine, zipcode, zipList),
-                actualVal]], 
-                columns=['zip','seaport','landprice','oilreserve',
-                               'existingplants','disasters','railroad',
-                               'populationdensity', 'actual'])
-    df = df.append(listData, ignore_index=True)
-    return engine, df
+    coord = 50
+    lat_range1 = str(int(zip_data['lat']) + coord)
+    lat_range2 = str(int(zip_data['lat']) - coord)
+    
+    lng_range1 = str(int(zip_data['lng']) + coord)
+    lng_range2 = str(int(zip_data['lng']) - coord)
+    
+    query2 = "SELECT * from dddm.earthquake_data where latitude BETWEEN '" 
+    + lat_range2 + "' and '" + lat_range1 + "' AND longitude BETWEEN '" 
+    + lng_range2 + "' and '" + lng_range1 + "'"
+    earthquake_data = pd.read_sql(query2, engine)        
+    
+    return earthquake_data
 
-def addToTable(zipcode, radius=50, actualVal='N'):
-    engine, df = getDFForZip(zipcode, radius, actualVal)
-    df.to_sql(name='model_data', con=engine, if_exists='append', index=False)
-    print("Added " + str(zipcode) + " successfully.")
+#fetch rules
+#Qualitative Data
+def fetch_rules():
+    engine = md.connect()
+    query = ""
     
-#addToTable('27606', actualVal='N')
+#fetch water data
+def fetch_water_data(zipcode):
+    
+    
+#fetch elevation data from google API
+def fetch_elevation_data(zipcode):
+    
+    
+#fetch weather data
+def fetch_weather_data(zipcode):

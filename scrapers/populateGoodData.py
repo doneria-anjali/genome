@@ -1,6 +1,6 @@
 import mysqlConnection as md
 import pandas as pd
-import buildModelAttributes as model
+import populateModelData as model
 
 def populateData(radius, actualValue):
     
@@ -28,4 +28,4 @@ def populateData(radius, actualValue):
             model.addToTable(updatedZip, radius, actualValue)
             print("Processed " + updatedZip)
     
-populateData(50, 'Y')
+#populateData(50, 'Y')
