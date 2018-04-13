@@ -15,8 +15,13 @@ def add_bad_data(engine):
 def add_good_data(engine):
     df = pd.read_csv('exported_data/model_good.csv')
     df.to_sql(name='model_data', con=engine, if_exists='append', index=False)
+
+def add_all_data(engine):
+    df = pd.read_csv('exported_data/model_data.csv')
+    df.to_sql(name='model_data', con=engine, if_exists='append', index=False)
     
 """ Comment out the data already imported """
 engine = md.connect()
-add_bad_data(engine)
-add_good_data(engine)
+#add_bad_data(engine)
+#add_good_data(engine)
+add_all_data(engine)
