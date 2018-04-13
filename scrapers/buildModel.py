@@ -119,12 +119,12 @@ def build_gaussian_model():
     GNB_clf = GaussianNB()
     
     GNB_clf.fit(x_train, y_train['actual'])
-    GNB_predicted = cross_val_predict(GNB_clf, data, target['actual'])
     
+    GNB_predicted = cross_val_predict(GNB_clf, data, target['actual'])
     GNB_scores = cross_val_score(GNB_clf, data, target.values.ravel(), cv=cv)
     
-    unique, counts = np.unique(GNB_predicted, return_counts=True)
-    GNB_counts = dict(zip(unique, counts))
+    #unique, counts = np.unique(GNB_predicted, return_counts=True)
+    #GNB_counts = dict(zip(unique, counts))
     
     GNB_confusion = confusion_matrix(target,GNB_predicted)
     model_names.append('GaussianNB')
@@ -144,10 +144,12 @@ def build_gaussian_model():
     print("  Cross validation score: %0.2f (+/- %0.2f)" % (GNB_scores.mean(), GNB_scores.std() * 2))
     print("  Predicted values accuracy: %0.2f" % (cv_score))
     
-    plot_outcome_chart(GNB_counts)
-    plt.figure()
+    #plot_outcome_chart(GNB_counts)
+    #plt.figure()
+    
     plot_confusion_matrix(GNB_confusion, class_names)
     plt.show()
+    
     print(classification_report(target, GNB_predicted)) 
     print()
     

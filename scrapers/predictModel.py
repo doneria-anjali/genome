@@ -7,7 +7,7 @@ Created on Thu Apr 12 20:54:12 2018
 """
 
 import mysqlConnection as md
-import buildModelAttributes as bmod
+import buildModelAttributes as attr
 import zipcodeDistance as zd
 import pandas as pd
 
@@ -19,30 +19,27 @@ def fetch_features(zipcode, radius):
     zipdf = zd.getZipcodes(zipcode, radius)
     zipList = zipdf['zip_code'].tolist()
     
-    df = pd.DataFrame(columns=['zip','seaport','landprice','oilreserve',
-                               'existingplants','disasters','railroad',
-                               'populationdensity'])
     listData = pd.DataFrame([[zipcode,
-                bmod.getSeaPortData(engine, zipcode, zipList),
-                bmod.getLandPricesData(engine, zipcode, zipList),
-                bmod.getOilReservesData(engine, zipcode, zipList),
-                bmod.getExistingPlants(engine, zipcode, zipList),
-                bmod.getDisasterData(engine, zipcode, zipList),
-                bmod.getRailroadData(engine, zipcode, zipList),
-                bmod.getPopulationDensityData(engine, zipcode, zipList)]], 
+                attr.getSeaPortData(engine, zipcode, zipList),
+                attr.getLandPricesData(engine, zipcode, zipList),
+                attr.getOilReservesData(engine, zipcode, zipList),
+                attr.getExistingPlants(engine, zipcode, zipList),
+                attr.getDisasterData(engine, zipcode, zipList),
+                attr.getRailroadData(engine, zipcode, zipList),
+                attr.getPopulationDensityData(engine, zipcode, zipList)]], 
                 columns=['zip','seaport','landprice','oilreserve',
                                'existingplants','disasters','railroad',
                                'populationdensity'])
-    df = df.append(listData, ignore_index=True)
-    return df
+    
+    return listData
 
     
 def run_model_for_prediction(zipcode, radius, model):
     #fetch all the features for zipcode to run the model
     test_df = fetch_features(zipcode, radius)
     
-    #TODO : finish prediction fxn call on gaussian model
-    
+    #predict
+    prediction = model.predict(test_df)
     
     return prediction, test_df
     
