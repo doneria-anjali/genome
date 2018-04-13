@@ -48,10 +48,10 @@ def getLandPricesData(engine, zipcode, zipList):
     
     avgCostIndex = data['structure_cost_norm'].mean()
     if avgCostIndex < 0.33:
-        return 1
+        return 3
     elif avgCostIndex < 0.67:
         return 2
-    return 3
+    return 1
 
 def getOilReservesData(engine, zipcode, zipList):
     query = "SELECT * from dddm.oil_reserve_final where zip in ("
@@ -81,24 +81,114 @@ def getExistingPlants(engine, zipcode, zipList):
         
     data = pd.read_sql(query, engine)
     num = len(data.index)
-    if num > 2:
+    if num == 0:
+        return 3
+    elif num < 3:
+        return 2
+    return 1
+
+def getDisasterData(engine, zipcode, zipList):
+    query = "SELECT * from dddm.disaster_data_final where zip in ("
+    query += "'" + zipcode + "',"
+    for zip in zipList:
+        query += "'" + zip +  "',"
+    
+    query = query[:-1]
+    query += ")"
+        
+    data = pd.read_sql(query, engine)
+    #Account for missing data by return 3 because no natural disasters
+    if len(data.index) == 0:
+        return 3
+    
+    fireMentions = data['NumFireReferences'].mean()
+    floodMentions = data['NumFloodReferences'].mean()
+    hurricaneMentions = data['NumHurricaneReferences'].mean()
+    
+    overallMean = (fireMentions + floodMentions + hurricaneMentions) / 3
+    if overallMean == 0:
+        return 3
+    elif overallMean < .5:
+        return 2
+    return 1
+
+def getRailroadData(engine, zipcode, zipList):
+    query = "SELECT * from dddm.railroad_data_final where zip in ("
+    query += "'" + zipcode + "',"
+    for zip in zipList:
+        query += "'" + zip +  "',"
+    
+    query = query[:-1]
+    query += ")"
+        
+    data = pd.read_sql(query, engine)
+    #Account for missing data by return -1
+    if len(data.index) == 0:
+        return -1
+    
+    avgFreightTons = data['Tons_norm'].mean()
+
+    if avgFreightTons == 0:
         return 1
-    elif num > 0:
+    elif avgFreightTons < .3:
         return 2
     return 3
 
-def buildAll(zipcode, radius):
+def getPopulationDensityData(engine, zipcode, zipList):
+    query = "SELECT * from dddm.population_density_final where zip in ("
+    query += "'" + zipcode + "',"
+    for zip in zipList:
+        query += "'" + zip +  "',"
     
-    # Gets zipcode right here to only call API once per run
-    engine = md.connect()
-    zipdf = zd.getZipcodes(zipcode, radius)
-    zipList = zipdf['zip_code'].tolist()
+    query = query[:-1]
+    query += ")"
+        
+    data = pd.read_sql(query, engine)
+    #Account for missing data by return 3 because no natural disasters
+    if len(data.index) == 0:
+        return -1
     
-    print('Number of sea ports: ' + str(getSeaPortData(engine, zipcode, zipList)))
-    print('Land price rating: ' + str(getLandPricesData(engine, zipcode, zipList)))
-    print('Oil reserves available: ' + str(getOilReservesData(engine, zipcode, zipList)))
-    print('Existing plant locations within radius: '\
-          + str(getExistingPlants(engine, zipcode, zipList)))
+    density = data['density_norm'].mean()
 
-""" For testing purposes only """
-buildAll('70615', 20)
+    if .000000001 < density < .01:
+        return 3
+    elif density < .03:
+        return 2
+    return 1
+
+def fetch_earthquake_data(zipcode):
+    engine = md.connect()
+    #fetch latitude and longitude for zipcode
+    query1 = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "'"
+    zip_data = pd.read_sql(query1, engine)
+    
+    coord = 50
+    lat_range1 = str(int(zip_data['lat']) + coord)
+    lat_range2 = str(int(zip_data['lat']) - coord)
+    
+    lng_range1 = str(int(zip_data['lng']) + coord)
+    lng_range2 = str(int(zip_data['lng']) - coord)
+    
+    query2 = "SELECT * from dddm.earthquake_data where latitude BETWEEN '" 
+    + lat_range2 + "' and '" + lat_range1 + "' AND longitude BETWEEN '" 
+    + lng_range2 + "' and '" + lng_range1 + "'"
+    earthquake_data = pd.read_sql(query2, engine)        
+    
+    return earthquake_data
+
+#fetch rules
+#Qualitative Data
+def fetch_rules():
+    engine = md.connect()
+    query = ""
+    
+#fetch water data
+def fetch_water_data(zipcode):
+    
+    
+#fetch elevation data from google API
+def fetch_elevation_data(zipcode):
+    
+    
+#fetch weather data
+def fetch_weather_data(zipcode):
