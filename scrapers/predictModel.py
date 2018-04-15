@@ -26,10 +26,7 @@ def fetch_features(zipcode, radius):
                 attr.getExistingPlants(engine, zipcode, zipList),
                 attr.getDisasterData(engine, zipcode, zipList),
                 attr.getRailroadData(engine, zipcode, zipList),
-                attr.getPopulationDensityData(engine, zipcode, zipList)]], 
-                columns=['zip','seaport','landprice','oilreserve',
-                               'existingplants','disasters','railroad',
-                               'populationdensity'])
+                attr.getPopulationDensityData(engine, zipcode, zipList)]])
     
     return listData
 
