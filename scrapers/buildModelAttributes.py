@@ -13,6 +13,8 @@ All functions are called at the bottom.
 import mysqlConnection as md
 import zipcodeDistance as zd
 import pandas as pd
+import simplejson
+import urllib
 
 def getSeaPortData(engine, zipcode, zipList):    
     query = "SELECT * from dddm.seaports_final where ZIPCODE in ("
@@ -184,11 +186,26 @@ def fetch_rules():
     
 #fetch water data
 def fetch_water_data(zipcode):
-    
+    print("hi")
     
 #fetch elevation data from google API
 def fetch_elevation_data(zipcode):
+    print("hi")
+    engine = md.connect()
+    query = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "'"
+    zip_data = pd.read_sql(query,engine)
+    latitude = str(int(zip_data['lat']))
+    longitude = str(int(zip_data['lng']))
     
+    base_url = "https://maps.googleapis.com/maps/api/elevation/json?locations="
+    key_url = "&key=AIzaSyAbFTeYx8kS0d7jH20xcm05QEUCDcdhL3U"
+    location = latitude + "," + longitude
+    api_url = base_url + location +key_url
+    
+    json_output = simplejson.load(urllib.request.urlopen(FINAL_URL))
+    return json_output["results"][0]["elevation"]
     
 #fetch weather data
 def fetch_weather_data(zipcode):
+    print("hi")
+
