@@ -9,10 +9,12 @@ Created on Thu Apr 12 21:45:17 2018
 import application as app
 import pandas as pd
 import mysqlConnection as md
+import predictModel as predict
+import buildModel as build
 
 def test():
     #fetch all the zipcodes for project
-    query = "SELECT zip FROM dddm.test_zips"
+    query = "SELECT Zip FROM dddm.test_zips"
     zip_df = pd.read_sql(query, md.connect())
     zip_list = zip_df['Zip'].tolist()
     
@@ -45,4 +47,17 @@ def test():
         df = df.append(listData, ignore_index=True)
         df.to_sql(name='test_data', con=md.connect(), if_exists='append', index=False)
         
-test()
+def test_data():
+    #fetch all the zipcodes for project
+    query = "SELECT Zip FROM dddm.test_zips"
+    zip_df = pd.read_sql(query, md.connect())
+    zip_list = zip_df['Zip'].tolist()
+    
+    model = build.build_gaussian_model()
+    
+    for zipcode in zip_list:
+        prediction, prediction_df = predict.run_model_for_prediction(zipcode, 50, model)
+        print("zip:" + str(zipcode) + ", prediction:" + prediction[0])
+        print()
+        
+test_data()
