@@ -70,3 +70,4 @@ def app(zipcode, radius):
         
     return resultData
     
+app('12247', 50)

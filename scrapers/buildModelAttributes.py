@@ -11,7 +11,7 @@ All functions are called at the bottom.
 """
 
 import mysqlConnection as md
-import zipcodeDistance as zd
+#import zipcodeDistance as zd
 import pandas as pd
 import simplejson
 import urllib
@@ -221,7 +221,7 @@ def fetch_elevation_data(zipcode):
     location = latitude + "," + longitude
     api_url = base_url + location +key_url
     
-    json_output = simplejson.load(urllib.request.urlopen(FINAL_URL))
+    json_output = simplejson.load(urllib.request.urlopen(api_url))
     return json_output["results"][0]["elevation"]
     
 #fetch weather data
