@@ -70,4 +70,4 @@ def app(zipcode, radius):
         
     return resultData
     
-app('12247', 50)
+#app('12247', 50)
