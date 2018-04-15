@@ -148,7 +148,8 @@ def build_gaussian_model():
     #plt.figure()
     
     plot_confusion_matrix(GNB_confusion, class_names)
-    plt.show()
+    #use in slideshow, not in demo
+    #plt.show()
     
     print(classification_report(target, GNB_predicted)) 
     print()
