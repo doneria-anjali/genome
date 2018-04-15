@@ -182,11 +182,30 @@ def fetch_earthquake_data(zipcode):
 #Qualitative Data
 def fetch_rules():
     engine = md.connect()
-    query = ""
+    query = "SELECT * FROM dddm.rules"
+    rules_data = pd.read_sql(query, engine)
+    
+    return rules_data
     
 #fetch water data
 def fetch_water_data(zipcode):
-    print("hi")
+    engine = md.connect()
+    query1 = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "'"
+    zip_data = pd.read_sql(query1, engine)
+    
+    coord = 50
+    lat_range1 = str(int(zip_data['lat']) + coord)
+    lat_range2 = str(int(zip_data['lat']) - coord)
+    
+    lng_range1 = str(int(zip_data['lng']) + coord)
+    lng_range2 = str(int(zip_data['lng']) - coord)
+    
+    query2 = "SELECT * FROM dddm.water_locations where LatitudeMeasure BETWEEN '" 
+    + lat_range2 + "' and '" + lat_range1 + "' AND LongitutdeMeasure BETWEEN '" 
+    + lng_range2 + "' and '" + lng_range1 + "'"
+    water_data = pd.read_sql(query2, engine)
+    
+    return water_data
     
 #fetch elevation data from google API
 def fetch_elevation_data(zipcode):
@@ -207,5 +226,13 @@ def fetch_elevation_data(zipcode):
     
 #fetch weather data
 def fetch_weather_data(zipcode):
-    print("hi")
-
+    engine = md.connect()
+    query1 = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "'"
+    zip_data = pd.read_sql(query1, engine)
+    
+    state = str(int(zip_data['state_id']))
+    
+    query2 = "SELECT * FROM dddm.weather_observations where State = '" + state + "'"
+    weather_data = pd.read_sql(query2, engine)
+    
+    return weather_data
