@@ -19,7 +19,6 @@ def test():
     result_list = []
     for zipcode in zip_list:
         result = app.app(zipcode, 50)
-        result.print()
         result_list.append(result)
         
 test()
