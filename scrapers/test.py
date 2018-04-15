@@ -12,9 +12,9 @@ import mysqlConnection as md
 
 def test():
     #fetch all the zipcodes for project
-    query = "SELECT zip FROM dddm.zips_for_project"
+    query = "SELECT zip FROM dddm.test_zips"
     zip_df = pd.read_sql(query, md.connect())
-    zip_list = zip_df['zip'].tolist()
+    zip_list = zip_df['Zip'].tolist()
     
     result_list = []
     for zipcode in zip_list:

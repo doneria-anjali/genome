@@ -8,8 +8,8 @@ Created on Thu Apr 12 21:34:35 2018
 import predictModel as predict
 import buildModel as build
 import buildModelAttributes as attr
-import populateGoodData as good
-import populateBadData as bad
+#import populateGoodData as good
+#import populateBadData as bad
 #import pandas as pd
 import time
 
@@ -70,3 +70,4 @@ def app(zipcode, radius):
         
     return resultData
     
+app('12247', 50)
