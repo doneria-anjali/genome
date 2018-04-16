@@ -63,10 +63,6 @@ def app(zipcode, radius):
         resultData = result_data(None, None, None, None, prediction_df, prediction[0],
                                  zipcode)
     
-    print("zip:" + resultData.zipcode)
-    print()
-    print("prediction:" + resultData.prediction)
-    print()
     #print execution time
     print("--- %s seconds ---" % (time.time() - start_time))
         

@@ -55,9 +55,16 @@ def test_data():
     
     model = build.build_gaussian_model()
     
+    df = pd.DataFrame(columns=['zip','prediction'])
+    
     for zipcode in zip_list:
         prediction, prediction_df = predict.run_model_for_prediction(zipcode, 50, model)
         print("zip:" + str(zipcode) + ", prediction:" + prediction[0])
         print()
+        
+        data = pd.DataFrame([[zipcode,prediction[0]]])
+        df = df.append(data, ignore_index=True)
+        
+    df.to_sql(name='test_data_prediction', con=md.connect(), if_exists='append', index=False)
         
 test_data()
