@@ -19,25 +19,41 @@ def fetch_features(zipcode, radius):
     zipdf = zd.getZipcodes(zipcode, radius)
     zipList = zipdf['zip_code'].tolist()
     
-    listData = pd.DataFrame([[zipcode,
+    listData = [[zipcode,
                 attr.getSeaPortData(engine, zipcode, zipList),
                 attr.getLandPricesData(engine, zipcode, zipList),
                 attr.getOilReservesData(engine, zipcode, zipList),
                 attr.getExistingPlants(engine, zipcode, zipList),
                 attr.getDisasterData(engine, zipcode, zipList),
                 attr.getRailroadData(engine, zipcode, zipList),
-                attr.getPopulationDensityData(engine, zipcode, zipList)]])
+                attr.getPopulationDensityData(engine, zipcode, zipList)]]
     
     return listData
 
+def fetch_features_from_db(zipcode):
+    engine = connect()
+    query = "SELECT seaport, landprice, oilreserve, existingplants, disasters,railroad,populationdensity,elevation from dddm.test_zip_data where zip = '" + str(zipcode) + "' or zip = '" + str(0) + str(zipcode) + "'"
+    test_df = pd.read_sql(query, engine)
+    #print(test_df)
+    df = [[test_df.iloc[0]['seaport'], 
+           test_df.iloc[0]['landprice'], 
+           test_df.iloc[0]['oilreserve'], 
+           test_df.iloc[0]['existingplants'],
+           test_df.iloc[0]['disasters'],
+           test_df.iloc[0]['railroad'],
+           test_df.iloc[0]['populationdensity'],
+           test_df.iloc[0]['elevation']]]
+
+    return df
     
-def run_model_for_prediction(zipcode, radius, model):
+def run_model_for_prediction(zipcode, model):
     #fetch all the features for zipcode to run the model
-    test_df = fetch_features(zipcode, radius)
+    #test_df = fetch_features(zipcode, radius)
+    test_df = fetch_features_from_db(zipcode)
     
     #predict
     prediction = model.predict(test_df)
-    
+    #print(prediction)
     return prediction, test_df
     
-    
+#fetch_features_from_db('12288')

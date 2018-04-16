@@ -39,4 +39,8 @@ def addToTable(zipcode, radius=50, actualVal='N'):
     df.to_sql(name='model_data', con=engine, if_exists='append', index=False)
     print("Added " + str(zipcode) + " successfully.")
     
+def addToTestTable(zipcode, radius=50, actualVal='None'):
+    engine, df = getDFForZip(zipcode, radius, actualVal)
+    df.to_sql(name='test_zip_data', con=engine, if_exists='append', index=False)
+    print("Added " + str(zipcode) + " successfully.")
 #addToTable('27606', actualVal='N')

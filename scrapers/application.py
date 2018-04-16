@@ -17,9 +17,8 @@ import time
 class result_data():
     #declare attributes
     #declare two constructors
-    def __init__(self,elevation_data, water_data, 
+    def __init__(self, water_data, 
                  weather_data, earthquake_data, rules, prediction_df, prediction, zipcode):
-      self.elevation_data = elevation_data
       self.water_data = water_data
       self.weather_data = weather_data
       self.earthquake_data = earthquake_data
@@ -42,12 +41,12 @@ def app(zipcode, radius):
     model = build.build_gaussian_model()
     
     #3. Test model for given zipcode and radius
-    prediction, prediction_df = predict.run_model_for_prediction(zipcode, radius, model)
+    prediction, prediction_df = predict.run_model_for_prediction(zipcode, model)
     
     #if prediction is Yes 
     #check for elevation data
-    if prediction == 'Y':
-        elevation_data = attr.fetch_elevation_data(zipcode)
+    if prediction[0] == 'Y':
+        #elevation_data = attr.fetch_elevation_data(zipcode)
         #fetch water data
         water_data = attr.fetch_water_data(zipcode)
         #fetch weather data
@@ -58,16 +57,20 @@ def app(zipcode, radius):
         rules = attr.fetch_rules()
         
         #make result object
-        resultData = result_data(elevation_data, water_data, weather_data, 
-                                 earthquake_data, rules, prediction_df, prediction, zipcode)
+        resultData = result_data(water_data, weather_data, 
+                                 earthquake_data, rules, prediction_df, prediction[0], zipcode)
     else:
-        resultData = result_data(None, None, None, None, None, prediction_df, prediction,
+        resultData = result_data(None, None, None, None, prediction_df, prediction[0],
                                  zipcode)
     
-    #print execution time
+    print("zip:" + resultData.zipcode)
     print()
+    print("prediction:" + resultData.prediction)
+    print()
+    #print execution time
     print("--- %s seconds ---" % (time.time() - start_time))
         
     return resultData
-    
-#app('12247', 50)
+
+#app('12288', 50)
+

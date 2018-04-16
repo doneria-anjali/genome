@@ -101,14 +101,14 @@ def getDisasterData(engine, zipcode, zipList):
     data = pd.read_sql(query, engine)
     #Account for missing data by return 3 because no natural disasters
     if len(data.index) == 0:
-        return 3
+        return -1
     
-    fireMentions = data['NumFireReferences'].mean()
-    floodMentions = data['NumFloodReferences'].mean()
-    hurricaneMentions = data['NumHurricaneReferences'].mean()
+    fireMentions = data['NumFireReferences_norm'].mean()
+    floodMentions = data['NumFloodReferences_norm'].mean()
+    hurricaneMentions = data['NumHurricaneReferences_norm'].mean()
     
     overallMean = (fireMentions + floodMentions + hurricaneMentions) / 3
-    if overallMean == 0:
+    if overallMean < .2:
         return 3
     elif overallMean < .5:
         return 2
