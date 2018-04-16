@@ -10,5 +10,6 @@ create table dddm.model_data
     disasters numeric(1),
     railroad numeric(1),
     populationdensity numeric(1),
-    actual character(1)
+    actual character(1),
+	elevation double
 );

@@ -14,7 +14,7 @@ import mysqlConnection as md
 #import zipcodeDistance as zd
 import pandas as pd
 import simplejson
-import urllib
+import urllib.request
 
 def getSeaPortData(engine, zipcode, zipList):    
     query = "SELECT * from dddm.seaports_final where ZIPCODE in ("
@@ -208,13 +208,19 @@ def fetch_water_data(zipcode):
     return water_data
     
 #fetch elevation data from google API
-def fetch_elevation_data(zipcode):
-    print("hi")
-    engine = md.connect()
-    query = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "'"
+def fetch_elevation_data(engine, zipcode):
+    #engine = md.connect()
+    zipcode = str(int(zipcode))
+    print(zipcode)
+    query = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "' OR zip='0" + zipcode +"' OR zip = '00" + zipcode +"'"
     zip_data = pd.read_sql(query,engine)
-    latitude = str(int(zip_data['lat']))
-    longitude = str(int(zip_data['lng']))
+    
+    if len(zip_data.index) == 0:
+        return -1
+    #print(zip_data)
+    
+    latitude = str(zip_data.iloc[0]['lat'])
+    longitude = str(zip_data.iloc[0]['lng'])
     
     base_url = "https://maps.googleapis.com/maps/api/elevation/json?locations="
     key_url = "&key=AIzaSyAbFTeYx8kS0d7jH20xcm05QEUCDcdhL3U"
@@ -222,8 +228,14 @@ def fetch_elevation_data(zipcode):
     api_url = base_url + location +key_url
     
     json_output = simplejson.load(urllib.request.urlopen(api_url))
-    return json_output["results"][0]["elevation"]
+    result = float(json_output["results"][0]["elevation"])
     
+    if(-1 < result <= 1029.00):
+        return 3
+    elif(1029.00 < result <= 2058):
+        return 2
+    return 1
+
 #fetch weather data
 def fetch_weather_data(zipcode):
     engine = md.connect()

@@ -17,7 +17,7 @@ def getDFForZip(zipcode, radius, actualVal):
     
     df = pd.DataFrame(columns=['zip','seaport','landprice','oilreserve',
                                'existingplants','disasters','railroad',
-                               'populationdensity', 'actual'])
+                               'populationdensity', 'actual','elevation'])
     listData = pd.DataFrame([[zipcode,
                 attr.getSeaPortData(engine, zipcode, zipList),
                 attr.getLandPricesData(engine, zipcode, zipList),
@@ -26,10 +26,11 @@ def getDFForZip(zipcode, radius, actualVal):
                 attr.getDisasterData(engine, zipcode, zipList),
                 attr.getRailroadData(engine, zipcode, zipList),
                 attr.getPopulationDensityData(engine, zipcode, zipList),
-                actualVal]], 
+                actualVal,
+                attr.fetch_elevation_data(engine, zipcode)]], 
                 columns=['zip','seaport','landprice','oilreserve',
                                'existingplants','disasters','railroad',
-                               'populationdensity', 'actual'])
+                               'populationdensity', 'actual','elevation'])
     df = df.append(listData, ignore_index=True)
     return engine, df
 
