@@ -1,9 +1,9 @@
 from tkinter import Tk, Button, Label, Entry
 from tkinter import mainloop
-import buildModelAttributes as model
+import application as model
 
 def callback():
-    model.buildAll(e.get(), e1.get())
+    model.app(e.get(), e1.get())
     l2['text'] = "On click display!!"
 
 master = Tk()
