@@ -36,6 +36,7 @@ def fetch_features(zipcode, radius):
 def fetch_features_from_db(zipcode):
     engine = connect()
     query = "SELECT seaport, landprice, oilreserve, existingplants, disasters,railroad,populationdensity,elevation from dddm.test_zip_data where zip = '" + str(zipcode) + "' or zip = '" + str(0) + str(zipcode) + "'"
+    #query = "SELECT seaport, landprice, oilreserve, existingplants, disasters,railroad,populationdensity,elevation from dddm.test_zip_data_all where zip = '" + str(zipcode) + "' or zip = '" + str(0) + str(zipcode) + "'"
     test_df = pd.read_sql(query, engine)
     #print(test_df)
     df = [[test_df.iloc[0]['seaport'], 
@@ -59,5 +60,3 @@ def run_model_for_prediction(zipcode, model):
     prediction = model.predict(test_df)
     #print(prediction)
     return prediction, test_df
-    
-fetch_features_from_db('12288')

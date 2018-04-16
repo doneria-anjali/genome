@@ -316,5 +316,3 @@ def runAllModels():
     build_random_forest_model()
     
     plot_model_comparison(model_names, train_accuracies, test_accuracies, cv_scores)
-    
-#runAllModels()
