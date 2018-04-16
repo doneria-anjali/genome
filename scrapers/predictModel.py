@@ -46,7 +46,8 @@ def fetch_features_from_db(zipcode):
            test_df.iloc[0]['railroad'],
            test_df.iloc[0]['populationdensity'],
            test_df.iloc[0]['elevation']]]
-
+    
+    #print(df)
     return df
     
 def run_model_for_prediction(zipcode, model):
@@ -59,4 +60,4 @@ def run_model_for_prediction(zipcode, model):
     #print(prediction)
     return prediction, test_df
     
-#fetch_features_from_db('12288')
+fetch_features_from_db('12288')

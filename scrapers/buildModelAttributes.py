@@ -161,7 +161,9 @@ def getPopulationDensityData(engine, zipcode, zipList):
 def fetch_earthquake_data(zipcode):
     engine = md.connect()
     #fetch latitude and longitude for zipcode
-    query1 = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "'"
+    zipcode = str(int(zipcode))
+    #print(zipcode)
+    query1 = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "' OR zip='0" + zipcode +"' OR zip = '00" + zipcode +"'"
     zip_data = pd.read_sql(query1, engine)
     
     coord = 2.5
@@ -190,7 +192,9 @@ def fetch_rules():
 #fetch water data
 def fetch_water_data(zipcode):
     engine = md.connect()
-    query1 = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "'"
+    zipcode = str(int(zipcode))
+    #print(zipcode)
+    query1 = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "' OR zip='0" + zipcode +"' OR zip = '00" + zipcode +"'"
     zip_data = pd.read_sql(query1, engine)
     
     coord = 2.5
@@ -211,7 +215,7 @@ def fetch_water_data(zipcode):
 def fetch_elevation_data(engine, zipcode):
     #engine = md.connect()
     zipcode = str(int(zipcode))
-    print(zipcode)
+    #print(zipcode)
     query = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "' OR zip='0" + zipcode +"' OR zip = '00" + zipcode +"'"
     zip_data = pd.read_sql(query,engine)
     
@@ -239,7 +243,9 @@ def fetch_elevation_data(engine, zipcode):
 #fetch weather data
 def fetch_weather_data(zipcode):
     engine = md.connect()
-    query1 = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "'"
+    zipcode = str(int(zipcode))
+    #print(zipcode)
+    query1 = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "' OR zip='0" + zipcode +"' OR zip = '00" + zipcode +"'"
     zip_data = pd.read_sql(query1, engine)
     
     state = str(int(zip_data['state_id']))

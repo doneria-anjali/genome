@@ -12,10 +12,10 @@ import populateModelData as model
 def populateData(radius, actualValue):
     
     #select all zipcodes from table
-    query = "select Zip FROM dddm.test_zips order by Zip asc"
+    query = "select zip FROM dddm.zips_for_project_data order by zip asc"
     data = pd.read_sql(query, md.connect())
     
-    allzipList = data['Zip'].tolist()
+    allzipList = data['zip'].tolist()
     print(len(allzipList))
     
     #select inserted zipcodes

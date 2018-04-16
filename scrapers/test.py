@@ -11,6 +11,7 @@ import pandas as pd
 import mysqlConnection as md
 import predictModel as predict
 import buildModel as build
+import csv
 
 def test():
     #fetch all the zipcodes for project
@@ -47,24 +48,62 @@ def test():
         df = df.append(listData, ignore_index=True)
         df.to_sql(name='test_data', con=md.connect(), if_exists='append', index=False)
         
-def test_data():
+def test_data_gaussian():
     #fetch all the zipcodes for project
     query = "SELECT Zip FROM dddm.test_zips"
     zip_df = pd.read_sql(query, md.connect())
     zip_list = zip_df['Zip'].tolist()
     
+    #file = open("output/gaussian.csv", "w")
+    #writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+    
+    #Train over Gaussian NB model
     model = build.build_gaussian_model()
-    
-    df = pd.DataFrame(columns=['zip','prediction'])
-    
     for zipcode in zip_list:
-        prediction, prediction_df = predict.run_model_for_prediction(zipcode, 50, model)
-        print("zip:" + str(zipcode) + ", prediction:" + prediction[0])
-        print()
+        prediction, prediction_df = predict.run_model_for_prediction(zipcode, model)
+        string = str(zipcode) + "," + prediction[0]
+        print(string)
+        #writer.writerow(string)
+    #file.close()
+
+def test_data_adaboost():
+    #fetch all the zipcodes for project
+    query = "SELECT Zip FROM dddm.test_zips"
+    zip_df = pd.read_sql(query, md.connect())
+    zip_list = zip_df['Zip'].tolist()
+    
+    #Train over Adaboost model
+    model = build.build_adaboost_model()
+    for zipcode in zip_list:
+        prediction, prediction_df = predict.run_model_for_prediction(zipcode, model)
+        string = str(zipcode) + "," + prediction[0]
+        print(string)
+
+def test_data_decision_tree():
+    #fetch all the zipcodes for project
+    query = "SELECT Zip FROM dddm.test_zips"
+    zip_df = pd.read_sql(query, md.connect())
+    zip_list = zip_df['Zip'].tolist()
+    
+    model = build.build_decision_tree_model()
+    for zipcode in zip_list:
+        prediction, prediction_df = predict.run_model_for_prediction(zipcode, model)
+        string = str(zipcode) + "," + prediction[0]
+        print(string)
         
-        data = pd.DataFrame([[zipcode,prediction[0]]])
-        df = df.append(data, ignore_index=True)
-        
-    df.to_sql(name='test_data_prediction', con=md.connect(), if_exists='append', index=False)
-        
-test_data()
+def test_data_random_forest():
+    #fetch all the zipcodes for project
+    query = "SELECT Zip FROM dddm.test_zips"
+    zip_df = pd.read_sql(query, md.connect())
+    zip_list = zip_df['Zip'].tolist()
+    
+    model = build.build_random_forest_model()
+    for zipcode in zip_list:
+        prediction, prediction_df = predict.run_model_for_prediction(zipcode, model)
+        string = str(zipcode) + "," + prediction[0]
+        print(string)
+    
+#test_data_gaussian()
+#test_data_adaboost()
+#test_data_decision_tree()
+#test_data_random_forest()

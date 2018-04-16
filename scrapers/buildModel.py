@@ -110,7 +110,7 @@ def build_gaussian_model():
     #class_names = ['No', 'Yes']
     
     datafull = pd.read_sql_table('model_data', md.connect())
-    data = datafull[['seaport', 'landprice', 'oilreserve', 'existingplants', 'disasters', 'railroad', 'populationdensity']]
+    data = datafull[['seaport', 'landprice', 'oilreserve', 'existingplants', 'disasters', 'railroad', 'populationdensity', 'elevation']]
     target = datafull[['actual']]
     
     x_train, x_test, y_train, y_test = train_test_split(data, target, test_size=0.2, random_state=3)
@@ -147,9 +147,9 @@ def build_gaussian_model():
     #plot_outcome_chart(GNB_counts)
     #plt.figure()
     
-    plot_confusion_matrix(GNB_confusion, class_names)
     #use in slideshow, not in demo
-    #plt.show()
+    plot_confusion_matrix(GNB_confusion, class_names)
+    plt.show()
     
     print(classification_report(target, GNB_predicted)) 
     print()
@@ -161,7 +161,7 @@ def build_adaboost_model():
     #class_names = ['No', 'Yes']
     
     datafull = pd.read_sql_table('model_data', md.connect())
-    data = datafull[['landprice', 'existingplants', 'disasters', 'railroad', 'populationdensity']]
+    data = datafull[['seaport', 'landprice', 'oilreserve', 'existingplants', 'disasters', 'railroad', 'populationdensity', 'elevation']]
     target = datafull[['actual']]
     
     x_train, x_test, y_train, y_test = train_test_split(data, target, test_size=0.2, random_state=3)
@@ -173,8 +173,8 @@ def build_adaboost_model():
     AB_predicted = cross_val_predict(AB_clf, data, target['actual'])
     AB_scores = cross_val_score(AB_clf, data, target.values.ravel(), cv=cv)
     
-    unique, counts = np.unique(AB_predicted, return_counts=True)
-    AB_counts = dict(zip(unique, counts))
+    #unique, counts = np.unique(AB_predicted, return_counts=True)
+    #AB_counts = dict(zip(unique, counts))
     
     AB_confusion = confusion_matrix(target,AB_predicted)
     model_names.append('AdaBoost')
@@ -194,10 +194,12 @@ def build_adaboost_model():
     print("  Cross validation score: %0.2f (+/- %0.2f)" % (AB_scores.mean(), AB_scores.std() * 2))
     print("  Predicted values accuracy: %0.2f" % (accuracy_score(target, AB_predicted) ))
     
-    plot_outcome_chart(AB_counts)
-    plt.figure()
+    #plot_outcome_chart(AB_counts)
+    #plt.figure()
+    
     plot_confusion_matrix(AB_confusion, class_names)
     plt.show()
+    
     print(classification_report(target, AB_predicted)) 
     print()
     
@@ -212,7 +214,7 @@ def build_adaboost_model():
 #3. Decision Tree Model
 def build_decision_tree_model():
     datafull = pd.read_sql_table('model_data', md.connect())
-    data = datafull[['landprice', 'existingplants', 'disasters', 'railroad', 'populationdensity']]
+    data = datafull[['seaport', 'landprice', 'oilreserve', 'existingplants', 'disasters', 'railroad', 'populationdensity', 'elevation']]
     target = datafull[['actual']]
     
     x_train, x_test, y_train, y_test = train_test_split(data, target, test_size=0.2, random_state=3)
@@ -225,8 +227,8 @@ def build_decision_tree_model():
     DT_predicted = cross_val_predict(DT_clf, data, target['actual'])
     DT_scores = cross_val_score(DT_clf, data, target, cv=cv)
     
-    unique, counts = np.unique(DT_predicted, return_counts=True)
-    DT_counts = dict(zip(unique, counts))
+    #unique, counts = np.unique(DT_predicted, return_counts=True)
+    #DT_counts = dict(zip(unique, counts))
     
     DT_confusion = confusion_matrix(target,DT_predicted)
     model_names.append('DecisionTree')
@@ -246,8 +248,8 @@ def build_decision_tree_model():
     print("  Cross validation score: %0.2f (+/- %0.2f)" % (DT_scores.mean(), DT_scores.std() * 2))
     print("  Predicted values accuracy: %0.2f" % (accuracy_score(target, DT_predicted) ))
     
-    plot_outcome_chart(DT_counts)
-    plt.figure()
+    #plot_outcome_chart(DT_counts)
+    #plt.figure()
     
     plot_confusion_matrix(DT_confusion, class_names)
     plt.show()
@@ -260,7 +262,7 @@ def build_decision_tree_model():
 #4. Random Forest Model
 def build_random_forest_model():
     datafull = pd.read_sql_table('model_data', md.connect())
-    data = datafull[['landprice', 'existingplants', 'disasters', 'railroad', 'populationdensity']]
+    data = datafull[['seaport', 'landprice', 'oilreserve', 'existingplants', 'disasters', 'railroad', 'populationdensity', 'elevation']]
     target = datafull[['actual']]
     
     x_train, x_test, y_train, y_test = train_test_split(data, target, test_size=0.2, random_state=3)
@@ -268,13 +270,13 @@ def build_random_forest_model():
     
     RF_clf = RandomForestClassifier(n_estimators = 200, random_state = 3)
     
-    RF_clf.fit(x_train, y_train['expected'])
+    RF_clf.fit(x_train, y_train['actual'])
     
-    RF_predicted = cross_val_predict(RF_clf, data, target['expected'])
+    RF_predicted = cross_val_predict(RF_clf, data, target['actual'])
     RF_scores = cross_val_score(RF_clf, data, target, cv=cv)
     
-    unique, counts = np.unique(RF_predicted, return_counts=True)
-    RF_counts = dict(zip(unique, counts))
+    #unique, counts = np.unique(RF_predicted, return_counts=True)
+    #RF_counts = dict(zip(unique, counts))
     
     RF_confusion = confusion_matrix(target,RF_predicted)
     
@@ -295,8 +297,8 @@ def build_random_forest_model():
     print("  Cross validation score: %0.2f (+/- %0.2f)" % (RF_scores.mean(), RF_scores.std() * 2))
     print("  Predicted values accuracy: %0.2f" % (accuracy_score(target, RF_predicted) ))
     
-    plot_outcome_chart(RF_counts)
-    plt.figure()
+    #plot_outcome_chart(RF_counts)
+    #plt.figure()
     
     plot_confusion_matrix(RF_confusion, class_names)
     plt.show()
@@ -315,4 +317,4 @@ def runAllModels():
     
     plot_model_comparison(model_names, train_accuracies, test_accuracies, cv_scores)
     
-#build_gaussian_model()
+#runAllModels()
