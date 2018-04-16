@@ -99,7 +99,7 @@ def getDisasterData(engine, zipcode, zipList):
     query += ")"
         
     data = pd.read_sql(query, engine)
-    #Account for missing data by return 3 because no natural disasters
+    #Account for missing data by return -1
     if len(data.index) == 0:
         return -1
     

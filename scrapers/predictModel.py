@@ -14,6 +14,7 @@ import pandas as pd
 def connect():
     return md.connect()
 
+#method to fetch attributes of a given zipcode at runtime
 def fetch_features(zipcode, radius):
     engine = connect()
     zipdf = zd.getZipcodes(zipcode, radius)
@@ -26,10 +27,12 @@ def fetch_features(zipcode, radius):
                 attr.getExistingPlants(engine, zipcode, zipList),
                 attr.getDisasterData(engine, zipcode, zipList),
                 attr.getRailroadData(engine, zipcode, zipList),
-                attr.getPopulationDensityData(engine, zipcode, zipList)]]
+                attr.getPopulationDensityData(engine, zipcode, zipList),
+                attr.fetch_elevation_data(engine, zipcode)]]
     
     return listData
 
+#method to fetch features from DB
 def fetch_features_from_db(zipcode):
     engine = connect()
     query = "SELECT seaport, landprice, oilreserve, existingplants, disasters,railroad,populationdensity,elevation from dddm.test_zip_data where zip = '" + str(zipcode) + "' or zip = '" + str(0) + str(zipcode) + "'"
