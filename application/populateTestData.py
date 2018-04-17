@@ -26,7 +26,7 @@ def populateData(radius, actualValue):
     #print(len(storedZip))
         
     for zipcode in allzipList:
-        updatedZip = str(int(zipcode))
+        updatedZip = str(int(zipcode)) 
         if len(str(int(zipcode))) == 3:
             updatedZip = str(0) + str(0) + updatedZip
         elif len(str(int(zipcode))) == 4:
