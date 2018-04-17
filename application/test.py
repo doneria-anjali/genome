@@ -11,7 +11,6 @@ import pandas as pd
 import mysqlConnection as md
 import predictModel as predict
 import buildModel as build
-import csv
 
 def test():
     #fetch all the zipcodes for project
