@@ -51,17 +51,6 @@ def plot_confusion_matrix(cm, classes,
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
 
-def plot_outcome_chart(predicted_values, title='Predicted outcomes'):
-    objects = ('No', 'Yes')
-    y_pos = np.arange(len(objects))
-    values = list(predicted_values.values())
-    if len(values) < 3:
-        values.insert(0, 0)
-    plt.bar(y_pos, values, align='center', alpha=0.5)
-    plt.xticks(y_pos, objects)
-    plt.ylabel('Count')
-    plt.title(title)
-    plt.show()
     
 def plot_model_comparison(model_names, train_accuracies, test_accuracies, cv_scores):
     raw_data = pd.DataFrame(
@@ -123,9 +112,6 @@ def build_gaussian_model():
     GNB_predicted = cross_val_predict(GNB_clf, data, target['actual'])
     GNB_scores = cross_val_score(GNB_clf, data, target.values.ravel(), cv=cv)
     
-    #unique, counts = np.unique(GNB_predicted, return_counts=True)
-    #GNB_counts = dict(zip(unique, counts))
-    
     GNB_confusion = confusion_matrix(target,GNB_predicted)
     model_names.append('GaussianNB')
     
@@ -144,9 +130,6 @@ def build_gaussian_model():
     print("  Cross validation score: %0.2f (+/- %0.2f)" % (GNB_scores.mean(), GNB_scores.std() * 2))
     print("  Predicted values accuracy: %0.2f" % (cv_score))
     
-    #plot_outcome_chart(GNB_counts)
-    #plt.figure()
-    
     #use in slideshow, not in demo
     plot_confusion_matrix(GNB_confusion, class_names)
     plt.show()
@@ -158,8 +141,6 @@ def build_gaussian_model():
     
 #2. AdaBoost Model
 def build_adaboost_model():
-    #class_names = ['No', 'Yes']
-    
     datafull = pd.read_sql_table('model_data', md.connect())
     data = datafull[['seaport', 'landprice', 'oilreserve', 'existingplants', 'disasters', 'railroad', 'populationdensity', 'elevation']]
     target = datafull[['actual']]
@@ -172,9 +153,6 @@ def build_adaboost_model():
     
     AB_predicted = cross_val_predict(AB_clf, data, target['actual'])
     AB_scores = cross_val_score(AB_clf, data, target.values.ravel(), cv=cv)
-    
-    #unique, counts = np.unique(AB_predicted, return_counts=True)
-    #AB_counts = dict(zip(unique, counts))
     
     AB_confusion = confusion_matrix(target,AB_predicted)
     model_names.append('AdaBoost')
@@ -193,9 +171,6 @@ def build_adaboost_model():
     print("  Score of {} for test set: {:.4f}.".format(AB_clf.__class__.__name__, test_accuracy))
     print("  Cross validation score: %0.2f (+/- %0.2f)" % (AB_scores.mean(), AB_scores.std() * 2))
     print("  Predicted values accuracy: %0.2f" % (accuracy_score(target, AB_predicted) ))
-    
-    #plot_outcome_chart(AB_counts)
-    #plt.figure()
     
     plot_confusion_matrix(AB_confusion, class_names)
     plt.show()
@@ -227,9 +202,6 @@ def build_decision_tree_model():
     DT_predicted = cross_val_predict(DT_clf, data, target['actual'])
     DT_scores = cross_val_score(DT_clf, data, target, cv=cv)
     
-    #unique, counts = np.unique(DT_predicted, return_counts=True)
-    #DT_counts = dict(zip(unique, counts))
-    
     DT_confusion = confusion_matrix(target,DT_predicted)
     model_names.append('DecisionTree')
     
@@ -247,9 +219,6 @@ def build_decision_tree_model():
     print("  Score of {} for test set: {:.4f}.".format(DT_clf.__class__.__name__, test_accuracy))
     print("  Cross validation score: %0.2f (+/- %0.2f)" % (DT_scores.mean(), DT_scores.std() * 2))
     print("  Predicted values accuracy: %0.2f" % (accuracy_score(target, DT_predicted) ))
-    
-    #plot_outcome_chart(DT_counts)
-    #plt.figure()
     
     plot_confusion_matrix(DT_confusion, class_names)
     plt.show()
@@ -275,9 +244,6 @@ def build_random_forest_model():
     RF_predicted = cross_val_predict(RF_clf, data, target['actual'])
     RF_scores = cross_val_score(RF_clf, data, target, cv=cv)
     
-    #unique, counts = np.unique(RF_predicted, return_counts=True)
-    #RF_counts = dict(zip(unique, counts))
-    
     RF_confusion = confusion_matrix(target,RF_predicted)
     
     model_names.append('RandomForest')
@@ -296,9 +262,6 @@ def build_random_forest_model():
     print("  Score of {} for test set: {:.4f}.".format(RF_clf.__class__.__name__, test_accuracy))
     print("  Cross validation score: %0.2f (+/- %0.2f)" % (RF_scores.mean(), RF_scores.std() * 2))
     print("  Predicted values accuracy: %0.2f" % (accuracy_score(target, RF_predicted) ))
-    
-    #plot_outcome_chart(RF_counts)
-    #plt.figure()
     
     plot_confusion_matrix(RF_confusion, class_names)
     plt.show()
