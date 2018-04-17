@@ -18,7 +18,7 @@ model_names = []
 train_accuracies = []
 test_accuracies = []
 cv_scores = []
-class_names = ['Yes', 'No']
+class_names = ['No', 'Yes']
 
 def plot_confusion_matrix(cm, classes,
                           normalize=False,
