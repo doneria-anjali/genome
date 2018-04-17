@@ -28,4 +28,4 @@ def populateData(radius, actualValue):
             model.addToTable(updatedZip, radius, actualValue)
             print("Processed " + updatedZip)
     
-populateData(50, 'Y')
+#populateData(50, 'Y')
