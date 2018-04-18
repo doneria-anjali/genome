@@ -184,7 +184,7 @@ def fetch_earthquake_data(zipcode):
 #Qualitative Data
 def fetch_rules():
     engine = md.connect()
-    query = "SELECT * FROM dddm.rules"
+    query = "SELECT * FROM dddm.rules where rule like '%General%'"
     rules_data = pd.read_sql(query, engine)
     
     return rules_data
