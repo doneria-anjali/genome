@@ -30,9 +30,27 @@ def callback():
     if((result.weather_data is not None) and (result.weather_data.empty == False)):
         weather_string = str(result.weather_data)
     else:
-        weather_string = " "            
+        weather_string = " " 
+    
+    values = [result.prediction_df[0][0],result.prediction_df[0][1],result.prediction_df[0][2],result.prediction_df[0][3],result.prediction_df[0][4],result.prediction_df[0][5],result.prediction_df[0][6],result.prediction_df[0][7]]
+    value_strings = ["","","","","","","",""]
+    
+    i = 0
+    while i<len(values):
+        if(values[i]==3):
+            value_strings[i] = "Highly favorable"
+        elif(values[i]==2):
+            value_strings[i] = "Favorable"
+        elif(values[i]==1):
+            value_strings[i] = "Less favorable"
+        elif(values[i]==-1):
+            value_strings[i] = "Data not available"
 
-    l2["text"] = pred_string + "\n" + water_string + "\n" + earthquake_string + "\n" + rules_string  + "\n" + weather_string   
+        i = i+1
+                        
+    l2["text"] = pred_string + "\n" + water_string + "\n" + earthquake_string + "\n" 
+    prediction_string = "Seaport: "+value_strings[0]+"\n Land Price: "+value_strings[1]+"\n Oil Reserve: "+value_strings[2]+"\n Existing Plants: "+value_strings[3]+"\n Disasters: "+value_strings[4]+"\n Railroad: "+value_strings[5]+"\n Population Density: "+value_strings[6]+"\n Elevation: "+value_strings[7]
+    l3["text"] = rules_string  + "\n" + weather_string + "\n" + prediction_string 
 
 
 master = Tk()
@@ -51,6 +69,12 @@ l1.place(x=130, y=18)
 
 l2 = Label(master, text="")
 l2.place(x=130, y=36)
+
+l3 = Label(master, text="")
+l3.place(x=130, y=100)
+
+l4 = Label(master, text="")
+l4.place(x=130, y=72)
 
 e = Entry(master)
 e.place(x=10, y=100)

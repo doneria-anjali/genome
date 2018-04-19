@@ -28,7 +28,7 @@ def getZipcodes(zipcode, radius):
     # For successful API call, response code will be 200 (OK)
     if(response.ok):
 
-        jData = json.loads(response.content)
+        jData = json.loads(response.content.decode('utf-8'))
         zipCodeResponse = jData['zip_codes']
         dfResponse = pd.DataFrame(zipCodeResponse)
         #print(dfResponse)

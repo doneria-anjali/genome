@@ -12,6 +12,6 @@ def import_water_data(file_name):
     data = pd.read_csv('resources/' + file_name)
     data = data[['MonitoringLocationTypeName', 'LatitudeMeasure', 'LongitudeMeasure']]
     #data.to_sql(name='water_locations', con=dbEngine, if_exists = 'replace')
-    md.create_table(md.connect(), data, 'water')
+    md.create_table(md.connect(), data, 'water_locations')
 
 import_water_data('waterlocations.csv')
