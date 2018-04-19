@@ -10,7 +10,7 @@ import buildModel as build
 import buildModelAttributes as attr
 #import populateGoodData as good
 #import populateBadData as bad
-#import pandas as pd
+import pandas as pd
 import time
 
 #define class to hold all the data in the object

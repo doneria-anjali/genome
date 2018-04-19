@@ -19,11 +19,12 @@ def callback():
         earthquake_string = "The number of earthquakes in the region: " + str(result.earthquake_data.shape[0])
     else:
         earthquake_string = " "
-        
-    if(result.rules is not None):
-        rules_sub = result.rules.iloc[:,1:4]
-        #rules_sub = rules_sub[[1,2]]
-        rules_string = "The following rules apply to the location: \n" + str(rules_sub)
+    
+    if(result.rules is not None and len(result.rules) > 0):
+        broken_string = [result.rules[i:i+80] for i in range(0, len(result.rules), 80)]
+        rules_string = "The following rules apply to the location: \n"
+        for x in range(0, len(broken_string)):
+            rules_string += broken_string[x] + "\n"
     else:
         rules_string = " "
         
