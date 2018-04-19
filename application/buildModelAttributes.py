@@ -166,14 +166,14 @@ def fetch_earthquake_data(zipcode):
     query1 = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "' OR zip='0" + zipcode +"' OR zip = '00" + zipcode +"'"
     zip_data = pd.read_sql(query1, engine)
     
-    coord = 2.5
+    coord = 0.5
     lat_range1 = str(int(zip_data['lat']) + coord)
     lat_range2 = str(int(zip_data['lat']) - coord)
     
     lng_range1 = str(int(zip_data['lng']) + coord)
     lng_range2 = str(int(zip_data['lng']) - coord)
     
-    query2 = "SELECT * from dddm.earthquake_data where latitude BETWEEN '" + lat_range2 + "' and '" + lat_range1 + "' AND longitude BETWEEN '" 
+    query2 = "SELECT * from dddm.earthquake_data where latitude BETWEEN '" + lat_range2 + "' and '" + lat_range1 + "' AND longitude BETWEEN '" \
     + lng_range2 + "' and '" + lng_range1 + "'"
     earthquake_data = pd.read_sql(query2, engine)        
     
@@ -183,7 +183,7 @@ def fetch_earthquake_data(zipcode):
 #Qualitative Data
 def fetch_rules():
     engine = md.connect()
-    query = "SELECT * FROM dddm.rules where rule like '%General%'"
+    query = "SELECT * FROM dddm.rules where rule like '%%General%%'"
     rules_data = pd.read_sql(query, engine)
     
     return rules_data
@@ -196,16 +196,16 @@ def fetch_water_data(zipcode):
     query1 = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "' OR zip='0" + zipcode +"' OR zip = '00" + zipcode +"'"
     zip_data = pd.read_sql(query1, engine)
     
-    coord = 2.5
+    coord = 0.5
     lat_range1 = str(int(zip_data['lat']) + coord)
     lat_range2 = str(int(zip_data['lat']) - coord)
     
     lng_range1 = str(int(zip_data['lng']) + coord)
     lng_range2 = str(int(zip_data['lng']) - coord)
     
-    query2 = "SELECT * FROM dddm.water_locations where LatitudeMeasure BETWEEN '" 
-    + lat_range2 + "' and '" + lat_range1 + "' AND LongitutdeMeasure BETWEEN '" 
-    + lng_range2 + "' and '" + lng_range1 + "'"
+    query2 = "SELECT * FROM dddm.water_locations where LatitudeMeasure BETWEEN '" \
+        + str(lat_range2) + "' and '" + str(lat_range1) + "' AND LongitudeMeasure BETWEEN '" \
+        + str(lng_range2) + "' and '" + str(lng_range1) + "'"
     water_data = pd.read_sql(query2, engine)
     
     return water_data
@@ -247,7 +247,7 @@ def fetch_weather_data(zipcode):
     query1 = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "' OR zip='0" + zipcode +"' OR zip = '00" + zipcode +"'"
     zip_data = pd.read_sql(query1, engine)
     
-    state = str(int(zip_data['state_id']))
+    state = str(zip_data['state_id'])
     
     query2 = "SELECT * FROM dddm.weather_observations where State = '" + state + "'"
     weather_data = pd.read_sql(query2, engine)

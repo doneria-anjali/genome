@@ -20,7 +20,7 @@ def callback():
     else:
         earthquake_string = " "
         
-    if(result.rules is not None):
+    if(result.rules is not None and len(result.rules.index) > 0):
         rules_sub = result.rules.iloc[:,1:4]
         #rules_sub = rules_sub[[1,2]]
         rules_string = "The following rules apply to the location: \n" + str(rules_sub)
