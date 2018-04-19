@@ -163,10 +163,10 @@ def fetch_earthquake_data(zipcode):
     #fetch latitude and longitude for zipcode
     zipcode = str(int(zipcode))
     #print(zipcode)
-    query1 = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "' OR zip='0" + zipcode +"' OR zip = '00" + zipcode +"'"
+    query1 = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "' OR zip='0" + zipcode +"' OR zip = '00" + zipcode +"' LIMIT 0,1"
     zip_data = pd.read_sql(query1, engine)
     
-    coord = 0.5
+    coord = 1.0
     lat_range1 = str(int(zip_data['lat']) + coord)
     lat_range2 = str(int(zip_data['lat']) - coord)
     
@@ -192,7 +192,7 @@ def fetch_water_data(zipcode):
     engine = md.connect()
     zipcode = str(int(zipcode))
     #print(zipcode)
-    query1 = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "' OR zip='0" + zipcode +"' OR zip = '00" + zipcode +"'"
+    query1 = "SELECT * FROM dddm.zip_lookup where zip = '" + zipcode + "' OR zip='0" + zipcode +"' OR zip = '00" + zipcode +"' LIMIT 0,1"
     zip_data = pd.read_sql(query1, engine)
     
     coord = 0.5
