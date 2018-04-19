@@ -41,7 +41,7 @@ def app(zipcode, radius):
     model = build.build_gaussian_model()
     
     #3. Test model for given zipcode and radius
-    prediction, prediction_df = predict.run_model_for_prediction(zipcode, model)
+    prediction, prediction_df = predict.run_model_for_prediction(zipcode, model, radius)
     
     #if prediction is Yes 
     #check for elevation data
@@ -62,6 +62,7 @@ def app(zipcode, radius):
     else:
         resultData = result_data(None, None, None, None, prediction_df, prediction[0],
                                  zipcode)
+        #print(prediction[0])
     
     #print execution time
     print("--- %s seconds ---" % (time.time() - start_time))
