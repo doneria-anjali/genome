@@ -38,7 +38,7 @@ def app(zipcode, radius):
     #bad.populateData(radius, 'N')
     
     #2. Build model and train it
-    model = build.build_gaussian_model()
+    model = build.build_random_forest_model()
     
     #3. Test model for given zipcode and radius
     prediction, prediction_df = predict.run_model_for_prediction(zipcode, model, radius)
