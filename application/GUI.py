@@ -39,13 +39,13 @@ def callback():
     i = 0
     while i<len(values):
         if(values[i]==3):
-            value_strings[i] = "Highly favorable"
+            value_strings[i] = "Great"
         elif(values[i]==2):
-            value_strings[i] = "Favorable"
+            value_strings[i] = "Average"
         elif(values[i]==1):
-            value_strings[i] = "Less favorable"
+            value_strings[i] = "Poor"
         elif(values[i]==-1):
-            value_strings[i] = "Data not available"
+            value_strings[i] = "No Data"
 
         i = i+1
                         
