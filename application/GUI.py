@@ -60,7 +60,7 @@ master .geometry("620x400")
 master .title("Environmental genome")
 
 b = Button(master, text="Let's check", command=callback)
-b.place(x=220, y=60)
+b.place(x=400, y=10)
 
 l = Label(master, text="Enter zipcode:")
 l.place(x=130, y=0)
