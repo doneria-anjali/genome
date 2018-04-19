@@ -185,8 +185,7 @@ def fetch_rules():
     engine = md.connect()
     query = "SELECT * FROM dddm.rules where rule like '%%General%%'"
     rules_data = pd.read_sql(query, engine)
-    
-    return rules_data
+    return rules_data['rule'].iloc[0]
     
 #fetch water data
 def fetch_water_data(zipcode):
