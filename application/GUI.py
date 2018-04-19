@@ -11,7 +11,7 @@ def callback():
     
     
     if(result.water_data is not None):
-        water_string = "Water sources within radius: " + str(result.water_data.shape[0])
+        water_string = "Water sources around the given zipcode: " + str(result.water_data.shape[0])
     else:
         water_string = " "
     
@@ -22,7 +22,7 @@ def callback():
     
     if(result.rules is not None and len(result.rules) > 0):
         broken_string = [result.rules[i:i+80] for i in range(0, len(result.rules), 80)]
-        rules_string = "The following water rules apply to the location: \n"
+        rules_string = "Subject to following rules: \n"
         for x in range(0, len(broken_string)):
             rules_string += broken_string[x] + "\n"
     else:
@@ -49,7 +49,7 @@ def callback():
 
         i = i+1
                         
-    l2["text"] = pred_string + "\n" + water_string + "\n" + earthquake_string + "\n" 
+    l2["text"] = "\n" + pred_string + "\n\n" + earthquake_string + "\n" + water_string
     prediction_string = "Seaport: "+value_strings[0]+"\n Land Price: "+value_strings[1]+"\n Oil Reserve: "+value_strings[2]+"\n Existing Plants: "+value_strings[3]+"\n Disasters: "+value_strings[4]+"\n Railroad: "+value_strings[5]+"\n Population Density: "+value_strings[6]+"\n Elevation: "+value_strings[7]
     l3["text"] = rules_string  + "\n" + weather_string + "\n" + prediction_string 
 
@@ -72,10 +72,7 @@ l2 = Label(master, text="")
 l2.place(x=130, y=36)
 
 l3 = Label(master, text="")
-l3.place(x=130, y=100)
-
-l4 = Label(master, text="")
-l4.place(x=130, y=72)
+l3.place(x=130, y=120)
 
 e = Entry(master)
 e.place(x=10, y=100)
