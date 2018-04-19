@@ -11,18 +11,18 @@ def callback():
     
     
     if(result.water_data is not None):
-        water_string = "The number of water bodies near the site are: " + str(result.water_data.shape[0])
+        water_string = "Water sources within radius: " + str(result.water_data.shape[0])
     else:
         water_string = " "
     
     if(result.earthquake_data is not None):
-        earthquake_string = "The number of earthquakes in the region: " + str(result.earthquake_data.shape[0])
+        earthquake_string = "Reported earthquakes in the region: " + str(result.earthquake_data.shape[0])
     else:
         earthquake_string = " "
     
     if(result.rules is not None and len(result.rules) > 0):
         broken_string = [result.rules[i:i+80] for i in range(0, len(result.rules), 80)]
-        rules_string = "The following rules apply to the location: \n"
+        rules_string = "The following water rules apply to the location: \n"
         for x in range(0, len(broken_string)):
             rules_string += broken_string[x] + "\n"
     else:
