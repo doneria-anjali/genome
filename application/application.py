@@ -65,7 +65,7 @@ def app(zipcode, radius):
         #print(prediction[0])
     
     #print execution time
-    print("--- %s seconds ---" % (time.time() - start_time))
+#    print("--- %s seconds ---" % (time.time() - start_time))
         
     return resultData
 

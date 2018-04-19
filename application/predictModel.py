@@ -29,7 +29,7 @@ def fetch_features(zipcode, radius):
                 attr.getRailroadData(engine, zipcode, zipList),
                 attr.getPopulationDensityData(engine, zipcode, zipList),
                 attr.fetch_elevation_data(engine, zipcode)]]
-    print(listData)
+#    print(listData)
     
     return listData
 
