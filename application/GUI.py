@@ -20,10 +20,13 @@ def callback():
     else:
         earthquake_string = " "
     
-    broken_string = [result.rules[i:i+80] for i in range(0, len(result.rules), 80)]
-    rules_string = "The following rules apply to the location: \n"
-    for x in range(0, len(broken_string)):
-        rules_string += broken_string[x] + "\n"
+    if(result.rules is not None and len(result.rules) > 0):
+        broken_string = [result.rules[i:i+80] for i in range(0, len(result.rules), 80)]
+        rules_string = "The following rules apply to the location: \n"
+        for x in range(0, len(broken_string)):
+            rules_string += broken_string[x] + "\n"
+    else:
+        rules_string = " "
         
     if((result.weather_data is not None) and (result.weather_data.empty == False)):
         weather_string = str(result.weather_data)
