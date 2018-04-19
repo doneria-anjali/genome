@@ -3,8 +3,37 @@ from tkinter import mainloop
 import application as model
 
 def callback():
-    model.app(e.get(), e1.get())
-    l2['text'] = "On click display!!"
+    result = model.app(e.get(), e1.get())
+    if(result.prediction == "Y"):
+        pred_string = "Approval Status: APPROVED"
+    else:
+        pred_string = "Approval Status: NOT APPROVED"
+    
+    
+    if(result.water_data is not None):
+        water_string = "The number of water bodies near the site are: " + str(result.water_data.shape[0])
+    else:
+        water_string = " "
+    
+    if(result.earthquake_data is not None):
+        earthquake_string = "The number of earthquakes in the region: " + str(result.earthquake_data.shape[0])
+    else:
+        earthquake_string = " "
+        
+    if(result.rules is not None):
+        rules_sub = result.rules.iloc[:,1:4]
+        #rules_sub = rules_sub[[1,2]]
+        rules_string = "The following rules apply to the location: \n" + str(rules_sub)
+    else:
+        rules_string = " "
+        
+    if((result.weather_data is not None) and (result.weather_data.empty == False)):
+        weather_string = str(result.weather_data)
+    else:
+        weather_string = " "            
+
+    l2["text"] = pred_string + "\n" + water_string + "\n" + earthquake_string + "\n" + rules_string  + "\n" + weather_string   
+
 
 master = Tk()
 master .minsize(300,300)

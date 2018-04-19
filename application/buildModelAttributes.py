@@ -173,8 +173,7 @@ def fetch_earthquake_data(zipcode):
     lng_range1 = str(int(zip_data['lng']) + coord)
     lng_range2 = str(int(zip_data['lng']) - coord)
     
-    query2 = "SELECT * from dddm.earthquake_data where latitude BETWEEN '" 
-    + lat_range2 + "' and '" + lat_range1 + "' AND longitude BETWEEN '" 
+    query2 = "SELECT * from dddm.earthquake_data where latitude BETWEEN '" + lat_range2 + "' and '" + lat_range1 + "' AND longitude BETWEEN '" 
     + lng_range2 + "' and '" + lng_range1 + "'"
     earthquake_data = pd.read_sql(query2, engine)        
     
