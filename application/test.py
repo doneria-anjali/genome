@@ -110,7 +110,7 @@ def test_data_random_forest():
 def run_all_models():
     build.runAllModels()
     
-run_all_models()
+#run_all_models()
 #test_data_gaussian()
 #test_data_adaboost()
 #test_data_decision_tree()

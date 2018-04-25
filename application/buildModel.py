@@ -259,17 +259,17 @@ def build_random_forest_model():
     cv_score = accuracy_score(target, RF_predicted)
     cv_scores.append(cv_score)
     
-#    print("Random Forest Classifier Model: ")
-#    print("  Score of {} for training set: {:.4f}.".format(RF_clf.__class__.__name__, train_accuracy))
-#    print("  Score of {} for test set: {:.4f}.".format(RF_clf.__class__.__name__, test_accuracy))
-#    print("  Cross validation score: %0.2f (+/- %0.2f)" % (RF_scores.mean(), RF_scores.std() * 2))
-#    print("  Predicted values accuracy: %0.2f" % (accuracy_score(target, RF_predicted) ))
+    print("Random Forest Classifier Model: ")
+    print("  Score of {} for training set: {:.4f}.".format(RF_clf.__class__.__name__, train_accuracy))
+    print("  Score of {} for test set: {:.4f}.".format(RF_clf.__class__.__name__, test_accuracy))
+    print("  Cross validation score: %0.2f (+/- %0.2f)" % (RF_scores.mean(), RF_scores.std() * 2))
+    print("  Predicted values accuracy: %0.2f" % (accuracy_score(target, RF_predicted) ))
     
-#    plot_confusion_matrix(RF_confusion, class_names)
-#    plt.show()
+    plot_confusion_matrix(RF_confusion, class_names)
+    plt.show()
     
-#    print(classification_report(target, RF_predicted)) 
-#    print()
+    print(classification_report(target, RF_predicted)) 
+    print()
     
     return RF_clf;
 
@@ -281,3 +281,5 @@ def runAllModels():
     build_random_forest_model()
     
     plot_model_comparison(model_names, train_accuracies, test_accuracies, cv_scores)
+    
+#runAllModels()

@@ -10,7 +10,6 @@ import buildModel as build
 import buildModelAttributes as attr
 #import populateGoodData as good
 #import populateBadData as bad
-import pandas as pd
 import time
 
 #define class to hold all the data in the object
@@ -49,15 +48,13 @@ def app(zipcode, radius):
         #elevation_data = attr.fetch_elevation_data(zipcode)
         #fetch water data
         water_data = attr.fetch_water_data(zipcode)
-        #fetch weather data
-        weather_data = attr.fetch_weather_data(zipcode)
         #fetch water rules
         earthquake_data = attr.fetch_earthquake_data(zipcode)
         #fetch rules for drilling oil reserves
         rules = attr.fetch_rules()
         
         #make result object
-        resultData = result_data(water_data, weather_data, 
+        resultData = result_data(water_data, None, 
                                  earthquake_data, rules, prediction_df, prediction[0], zipcode)
     else:
         resultData = result_data(None, None, None, None, prediction_df, prediction[0],
@@ -65,7 +62,7 @@ def app(zipcode, radius):
         #print(prediction[0])
     
     #print execution time
-#    print("--- %s seconds ---" % (time.time() - start_time))
+    print("--- %s seconds ---" % (time.time() - start_time))
         
     return resultData
 
