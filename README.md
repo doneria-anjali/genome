@@ -14,6 +14,8 @@ The application runs from GUI.py under application folder taking following input
 
 The GUI triggers a call to an API(http://www.zipcodeapi.com/) that dynamically fetches the list of zipcodes lying within the given radius (in miles) around the given location. Using this list of zipcodes, we fetch seaport, oil reserves, land prices, population density, elevation (using Google API), railroad, natural disaster, and existing plant data present in the database. This data is standardized to provide corresponding weights to these factors to be fed into the trained model (Random Forest Model) for prediction of 'Yes' or 'No'. If the system approves the decision of constructing an oil refinery in a given zipcode, few more details are given to the user for intelligence augumentation which includes frequency of earthquakes reported in that area in last 10 years, number of water surrounding that area and the general rules imposed by the local authority for drilling oil wells in the given location.
 
+More details can be found in the detailed final report - https://docs.google.com/document/d/199hdLw8dYUL4S65YVm6j8bpr_kjYe5dq8O2xgvdTOQM/edit?usp=sharing
+
 
 
 Department of Computer Science,
