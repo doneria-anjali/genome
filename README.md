@@ -6,6 +6,7 @@ Problem Statement - "Based on external factors such as population density, land 
 
 The objective of this project is to learn making data-driven decisions based on quantitative and qualitative nature of the data. The project helps in critically thinking about the given problem statement, the external factors contributing to the decision, deciding upon the right data sources, and building decision rules. The major steps involved were crawling the different web resources to collect the data, processing that data for storing in the relational data format, building decision rules for attributes, training the decision model and making predictions based on the zipcodes of United States.
 
+All the data collected to build this application can be found under resources folder.
 Data pre-requisites - application/exported_data contains the training and testing data that can be imported into the mysql database using addAllModelData.py. More details for importing data can be found at https://docs.google.com/document/d/1D9NLfbDC19MmgJblQlQS4dHkf-cXh6s61VdUP156Mxg/edit?usp=sharing
 
 The application runs from GUI.py under application folder taking following inputs:
